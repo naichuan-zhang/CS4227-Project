@@ -1,12 +1,36 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} {% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>{{ title }}</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+    {% block ext_css %}
+    {# add css #}
+    {% endblock %}
 </head>
 <body>
-{% block content %}
+{% block header %}
+{# add header #}
+{% endblock %}
 
+{% block content %}
+{# add content #}
+{% endblock %}
+
+{% block footer %}
+{# add footer #}
+{% endblock %}
+
+<script type="text/javascript" src="{% static 'js/jquery-3.4.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+
+{% block ext_js %}
+{# add js #}
 {% endblock %}
 </body>
 </html>
