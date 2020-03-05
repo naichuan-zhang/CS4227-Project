@@ -1,13 +1,28 @@
-from django.http import HttpResponse, JsonResponse
+from django.contrib.auth.hashers import make_password, check_password
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from App.constants import HTTP_USER_EXIST, HTTP_USER_OK
 from App.models import User
+from App.user_builder import GeneralUserWithoutIcon, GeneralUser
 
 
 def home(request):
     return render(request, 'main/home.html')
+
+
+def me(request):
+    user_id = request.session.get('user_id')
+    content = {
+        "title": "Me",
+    }
+    if user_id:
+        pass
+    else:
+        pass
+
+    return render(request, 'main/me.html', content)
 
 
 def register(request):
@@ -23,13 +38,13 @@ def register(request):
         password = request.POST.get('password')
         icon = request.FILES.get('icon')
 
-        user = User()
-        user.username = username
-        user.password = password
-        user.email = email
-        user.icon = icon
+        # encode password
+        password = make_password(password)
 
-        user.save()
+        # use Builder Design Pattern to create an user
+        user = GeneralUser()
+        user.construct(username, password, email, icon)
+
         return redirect(reverse('login'))
 
 
@@ -43,11 +58,23 @@ def login(request):
     elif request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
-        # TODO: query
-        return HttpResponse("LOGIN SUCCESS!!!")
+        users = User.objects.filter(username=username)
+        if users.exists():
+            user = users.first()
+            if check_password(password, user.password):
+                # save user into session
+                request.session['user_id'] = user.id
+                # redirect to Me when successful
+                return redirect(reverse('me'))
+            else:
+                return redirect(reverse('login'))
+        print("Invalid username or password!!!")
+        return redirect(reverse('login'))
 
 
 def check_user(request):
+    """check if the username already exists or not when registration"""
+
     username = request.GET.get('username')
     users = User.objects.filter(username=username)
     data = {

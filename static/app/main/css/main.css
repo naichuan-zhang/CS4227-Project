@@ -32,3 +32,13 @@ header, footer {
     position: fixed;
     display: flex;
 }
+
+#me {
+    width: 200px;
+    height: 200px;
+}
+
+#icon {
+    width: 3px;
+    border: 1px solid green;
+}
