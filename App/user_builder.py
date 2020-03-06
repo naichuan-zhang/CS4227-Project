@@ -1,8 +1,9 @@
 from abc import ABCMeta, abstractmethod, ABC
 
+from App.logger import logger
 from App.models import User
 
-
+# TODO: FIX THIS !!!!!!!!!!!!
 # Builder Design Pattern
 class IUserBuilder(metaclass=ABCMeta):
     """the builder interface"""
@@ -32,6 +33,18 @@ class IUserBuilder(metaclass=ABCMeta):
 
     @staticmethod
     @abstractmethod
+    def save():
+        """save user to database"""
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def reset():
+        """reset user"""
+        pass
+
+    @staticmethod
+    @abstractmethod
     def get_user():
         """return the user"""
         pass
@@ -40,39 +53,53 @@ class IUserBuilder(metaclass=ABCMeta):
 class UserBuilder(IUserBuilder, ABC):
     """the concrete builder"""
     def __init__(self):
-        self.user = User()
+        super().__init__()
+        self.__user = User()
 
+    @logger
     def set_username(self, value):
-        self.user.username = value
+        self.__user.username = value
         return self
 
+    @logger
     def set_password(self, value):
-        self.user.password = value
+        self.__user.password = value
         return self
 
+    @logger
     def set_email(self, value):
-        self.user.email = value
+        self.__user.email = value
         return self
 
+    @logger
     def set_icon(self, value):
-        self.user.icon = value
+        self.__user.icon = value
         return self
 
+    @logger
     def save(self):
-        """save user to database"""
-        self.user.save()
+        self.__user.save()
         return self
 
+    @logger
+    def reset(self):
+        self.__user = User()
+
+    @logger
     def get_user(self):
-        return self.user
+        return self.__user
 
 
 # the user for registration
 class GeneralUser:
     """the director, building a different representation"""
-    @staticmethod
-    def construct(username, password, email, icon):
-        return UserBuilder() \
+    def __init__(self, builder):
+        super().__init__()
+        self.__builder = builder
+
+    @logger
+    def construct(self, username, password, email, icon):
+        return self.__builder.reset() \
             .set_username(username) \
             .set_password(password) \
             .set_email(email)\
@@ -83,9 +110,13 @@ class GeneralUser:
 
 class GeneralUserWithoutIcon:
     """the director, building a different representation"""
-    @staticmethod
-    def construct(username, password, email):
-        return UserBuilder()\
+    def __init__(self, builder: IUserBuilder):
+        super().__init__()
+        self.__builder = builder
+
+    @logger
+    def construct(self, username, password, email):
+        return self.__builder.reset()\
             .set_username(username)\
             .set_password(password)\
             .set_email(email)\

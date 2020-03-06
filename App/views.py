@@ -9,7 +9,7 @@ from django.urls import reverse
 from App.constants import HTTP_USER_EXIST, HTTP_USER_OK
 from App.email_helper import send_activate_email
 from App.models import User
-from App.user_builder import GeneralUser
+from App.user_builder import GeneralUser, UserBuilder
 from CS4227_Project.settings import MEDIA_KEY_PREFIX
 
 
@@ -51,7 +51,7 @@ def register(request):
         password = make_password(password)
 
         # use Builder Design Pattern to create an user
-        user_builder = GeneralUser()
+        user_builder = GeneralUser(UserBuilder())
         user = user_builder.construct(username, password, email, icon)
 
         token = uuid.uuid4().hex
