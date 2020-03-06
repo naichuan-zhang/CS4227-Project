@@ -9,3 +9,8 @@
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'app/user/css/user.css' %}">
 {% endblock %}
+
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/md5.js' %}"></script>
+{% endblock %}

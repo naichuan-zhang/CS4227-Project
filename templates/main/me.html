@@ -1,9 +1,33 @@
 {% extends 'base_main.html' %}
 {% load staticfiles %}
 
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'app/main/js/me.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <div id="me">
-        <img id="icon" src="{% static 'img/user_icon.png' %}" alt="">
+        {% if is_login %}
+            <img id="icon" src="{{ icon }}" alt="{{ username }}">
+        {% else %}
+            <span class="glyphicon glyphicon-user"></span>
+        {% endif %}
     </div>
+
+    {% if is_login %}
+        <p>Welcome {{ username }}!</p>
+    {% else %}
+        <p id="not_login">You haven't logged in yet, login now</p>
+    {% endif %}
+
+    {% if not is_login %}
+        <div id="register">Register</div>
+    {% endif %}
+
+    {% if is_login %}
+        <p>
+            <a href="{% url 'logout' %}">Logout</a>
+        </p>
+    {% endif %}
 {% endblock %}

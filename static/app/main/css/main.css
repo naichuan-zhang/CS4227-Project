@@ -39,6 +39,7 @@ header, footer {
 }
 
 #icon {
-    width: 3px;
-    border: 1px solid green;
+    width: 100px;
+    height: 150px;
+    border: 2px solid green;
 }

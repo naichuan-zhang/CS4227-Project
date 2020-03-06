@@ -6,6 +6,7 @@ from django.urls import reverse
 from App.constants import HTTP_USER_EXIST, HTTP_USER_OK
 from App.models import User
 from App.user_builder import GeneralUserWithoutIcon, GeneralUser
+from CS4227_Project.settings import MEDIA_KEY_PREFIX
 
 
 def home(request):
@@ -16,9 +17,13 @@ def me(request):
     user_id = request.session.get('user_id')
     content = {
         "title": "Me",
+        "is_login": False,
     }
     if user_id:
-        pass
+        user = User.objects.get(pk=user_id)
+        content["is_login"] = True
+        content["username"] = user.username
+        content["icon"] = MEDIA_KEY_PREFIX + user.icon.url
     else:
         pass
 
@@ -85,3 +90,8 @@ def check_user(request):
         data["status"] = HTTP_USER_EXIST
         data["msg"] = "Username already exists!"
     return JsonResponse(data=data)
+
+
+def logout(request):
+    request.session.flush()
+    return redirect(reverse('me'))
