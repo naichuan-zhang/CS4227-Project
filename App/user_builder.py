@@ -61,6 +61,7 @@ class UserBuilder(IUserBuilder, ABC):
     def save(self):
         """save user to database"""
         self.user.save()
+        return self
 
     def get_user(self):
         return self.user
@@ -69,7 +70,6 @@ class UserBuilder(IUserBuilder, ABC):
 # the user for registration
 class GeneralUser:
     """the director, building a different representation"""
-
     @staticmethod
     def construct(username, password, email, icon):
         return UserBuilder() \
@@ -77,7 +77,8 @@ class GeneralUser:
             .set_password(password) \
             .set_email(email)\
             .set_icon(icon)\
-            .save()
+            .save()\
+            .get_user()
 
 
 class GeneralUserWithoutIcon:
@@ -88,4 +89,5 @@ class GeneralUserWithoutIcon:
             .set_username(username)\
             .set_password(password)\
             .set_email(email)\
-            .save()
+            .save()\
+            .get_user()

@@ -116,7 +116,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -130,8 +129,23 @@ MEDIA_KEY_PREFIX = "/static/upload/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/upload')
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'cs4227projectactivate@gmail.com'
 EMAIL_HOST_PASSWORD = 'znc12345678'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+SERVER_HOST = '127.0.0.1'
+SERVER_PORT = 8000

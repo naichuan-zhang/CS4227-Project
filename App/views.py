@@ -1,13 +1,16 @@
+import uuid
+
 from django.contrib.auth.hashers import make_password, check_password
-from django.core.mail import send_mail
-from django.http import JsonResponse, HttpResponse
+from django.core.cache import cache
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from App.constants import HTTP_USER_EXIST, HTTP_USER_OK
+from App.email_helper import send_activate_email
 from App.models import User
-from App.user_builder import GeneralUserWithoutIcon, GeneralUser
-from CS4227_Project.settings import MEDIA_KEY_PREFIX, EMAIL_HOST_USER
+from App.user_builder import GeneralUser
+from CS4227_Project.settings import MEDIA_KEY_PREFIX
 
 
 def home(request):
@@ -48,17 +51,26 @@ def register(request):
         password = make_password(password)
 
         # use Builder Design Pattern to create an user
-        user = GeneralUser()
-        user.construct(username, password, email, icon)
+        user_builder = GeneralUser()
+        user = user_builder.construct(username, password, email, icon)
 
-        return redirect(reverse('login'))
+        token = uuid.uuid4().hex
+        cache.set(token, user.id, timeout=60*60*24)
+        send_activate_email(username=username, receiver_email=email, token=token)
+
+        return render(request, 'user/activate.html')
 
 
 def login(request):
     if request.method == "GET":
+        error_message = request.session.get('error_message')
         content = {
             "title": "Login",
         }
+        if error_message:
+            del request.session['error_message']
+            content['error_message'] = error_message
+
         return render(request, 'user/login.html', content)
 
     elif request.method == "POST":
@@ -68,13 +80,18 @@ def login(request):
         if users.exists():
             user = users.first()
             if check_password(password, user.password):
-                # save user into session
-                request.session['user_id'] = user.id
-                # redirect to Me when successful
-                return redirect(reverse('me'))
+                if user.is_active:
+                    # save user into session
+                    request.session['user_id'] = user.id
+                    # redirect to Me when successful
+                    return redirect(reverse('me'))
+                else:
+                    request.session['error_message'] = "Not activated yet"
+                    return redirect(reverse('login'))
             else:
+                request.session['error_message'] = "Wrong password"
                 return redirect(reverse('login'))
-        print("Invalid username or password!!!")
+        request.session['error_message'] = 'Username does not exist'
         return redirect(reverse('login'))
 
 
@@ -98,13 +115,15 @@ def logout(request):
     return redirect(reverse('me'))
 
 
-# TODO: Failed !!!!!
-# for testing send email operation
-def send_email(request):
-    subject = 'CS4227 Project | Activate your account'
-    message = 'hello'
-    from_email = EMAIL_HOST_USER
-    recipient_list = ['zhangnaichuan168@gmail.com', ]
-    send_mail(subject=subject, message=message,
-              from_email=from_email, recipient_list=recipient_list, fail_silently=False)
-    return HttpResponse("send success")
+def activate(request):
+    token = request.GET.get('token')
+    user_id = cache.get(token)
+    if user_id:
+        # allow user to activate email once only
+        cache.delete(token)
+        user = User.objects.get(pk=user_id)
+        user.is_active = True
+        user.save()
+        return redirect(reverse('login'))
+
+    return render(request, 'user/activate_failed.html')
