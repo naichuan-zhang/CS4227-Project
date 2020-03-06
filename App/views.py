@@ -9,7 +9,8 @@ from django.urls import reverse
 from App.constants import HTTP_USER_EXIST, HTTP_USER_OK
 from App.email_helper import send_activate_email
 from App.models import User
-from App.user_builder import GeneralUser, UserBuilder
+from App.userbuilder.userbuilder import UserBuilder
+from App.userbuilder.userdirector import UserDirector
 from CS4227_Project.settings import MEDIA_KEY_PREFIX
 
 
@@ -50,9 +51,10 @@ def register(request):
         # encode password
         password = make_password(password)
 
+        # TODO: combine Builder with AbstractFactory??
         # use Builder Design Pattern to create an user
-        user_builder = GeneralUser(UserBuilder())
-        user = user_builder.construct(username, password, email, icon)
+        user_director = UserDirector(UserBuilder())
+        user = user_director.construct(username, password, email, icon)
 
         token = uuid.uuid4().hex
         cache.set(token, user.id, timeout=60*60*24)
