@@ -1,12 +1,13 @@
 from django.contrib.auth.hashers import make_password, check_password
-from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from App.constants import HTTP_USER_EXIST, HTTP_USER_OK
 from App.models import User
 from App.user_builder import GeneralUserWithoutIcon, GeneralUser
-from CS4227_Project.settings import MEDIA_KEY_PREFIX
+from CS4227_Project.settings import MEDIA_KEY_PREFIX, EMAIL_HOST_USER
 
 
 def home(request):
@@ -95,3 +96,15 @@ def check_user(request):
 def logout(request):
     request.session.flush()
     return redirect(reverse('me'))
+
+
+# TODO: Failed !!!!!
+# for testing send email operation
+def send_email(request):
+    subject = 'CS4227 Project | Activate your account'
+    message = 'hello'
+    from_email = EMAIL_HOST_USER
+    recipient_list = ['zhangnaichuan168@gmail.com', ]
+    send_mail(subject=subject, message=message,
+              from_email=from_email, recipient_list=recipient_list, fail_silently=False)
+    return HttpResponse("send success")

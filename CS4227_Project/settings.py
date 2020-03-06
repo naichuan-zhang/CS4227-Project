@@ -129,3 +129,9 @@ STATICFILES_DIRS = [
 MEDIA_KEY_PREFIX = "/static/upload/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/upload')
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'cs4227projectactivate@gmail.com'
+EMAIL_HOST_PASSWORD = 'znc12345678'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

@@ -11,4 +11,5 @@ urlpatterns = [
     path('checkuser/', views.check_user, name='checkuser'),
     path('logout/', views.logout, name='logout'),
     path('me/', views.me, name='me'),
+    path('sendemail/', views.send_email, name='sendemail'),
 ]
