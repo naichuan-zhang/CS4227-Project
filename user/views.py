@@ -6,11 +6,11 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from App.constants import HTTP_USER_EXIST, HTTP_USER_OK
-from App.email_helper import send_activate_email
-from App.models import User
-from App.userbuilder.userbuilder import UserBuilder
-from App.userbuilder.userdirector import UserDirector
+from user.constants import HTTP_USER_EXIST, HTTP_USER_OK
+from user.email_helper import send_activate_email
+from user.models import User
+from user.userbuilder.userbuilder import UserBuilder
+from user.userbuilder.userdirector import UserDirector
 from CS4227_Project.settings import MEDIA_KEY_PREFIX
 
 

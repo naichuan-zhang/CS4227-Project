@@ -5,7 +5,7 @@ $(function () {
     $username.change(function () {
         let username = $username.val().trim();
         if (username.length) {
-            $.getJSON('/app/checkuser/', {'username': username}, function (data) {
+            $.getJSON('/user/checkuser/', {'username': username}, function (data) {
                 console.log(data);
                 let $username_msg = $("#username_msg");
                 if (data["status"] === 200) {

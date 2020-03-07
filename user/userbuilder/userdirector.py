@@ -1,4 +1,4 @@
-from App.userbuilder.abstractuserbuilder import AbstractUserBuilder
+from user.userbuilder.abstractuserbuilder import AbstractUserBuilder
 
 
 class UserDirector:

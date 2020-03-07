@@ -1,7 +1,7 @@
 from abc import ABC
 
-from App.models import User
-from App.userbuilder.abstractuserbuilder import AbstractUserBuilder
+from user.models import User
+from user.userbuilder.abstractuserbuilder import AbstractUserBuilder
 
 
 class UserBuilder(AbstractUserBuilder, ABC):

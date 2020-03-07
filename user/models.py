@@ -2,6 +2,7 @@ from django.db import models
 
 
 class User(models.Model):
+    """user model"""
     username = models.CharField(max_length=32, unique=True)
     password = models.CharField(max_length=256)
     email = models.CharField(max_length=64, unique=True)
@@ -11,3 +12,6 @@ class User(models.Model):
 
     class Meta:
         db_table = 'user'
+
+    def __str__(self):
+        return self.username
