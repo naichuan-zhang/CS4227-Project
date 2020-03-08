@@ -10,7 +10,7 @@ def send_activate_email(username, receiver_email, token):
     recipient_list = [receiver_email, ]
     data = {
         'username': username,
-        'activate_url': 'http://{}:{}/app/activate/?token={}'.format(SERVER_HOST, SERVER_PORT, token),
+        'activate_url': 'http://{}:{}/user/activate/?token={}'.format(SERVER_HOST, SERVER_PORT, token),
     }
     html_message = loader.get_template('user/activate_message.html').render(data)
     send_mail(subject=subject, message="",
