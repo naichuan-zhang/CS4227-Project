@@ -28,7 +28,7 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              {% if user.is_authenticated %}
+              {% if request.session.user_id %}
                 <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
                 <a class="nav-item nav-link" href="{% url 'show' %}">Order</a>
                 <a class="nav-item nav-link" href="{% url 'home' %}">About</a>
@@ -39,7 +39,7 @@
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
-              {% if user.is_authenticated %}
+              {% if request.session.user_id %}
                 <a class="nav-item nav-link" href="{% url 'me' %}">Profile</a>
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
               {% else %}
