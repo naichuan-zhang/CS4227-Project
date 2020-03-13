@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="options">
+        <a href="{% url 'create_order' %}">Create Order</a>
+        <br>
+        <a href="{% url 'view_orders' %}">View Previous Orders</a>
+    </div>
+{% endblock %}
