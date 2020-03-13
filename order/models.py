@@ -1,17 +1,68 @@
+from enum import IntEnum
 from django.db import models
-
 from user.models import User
 
 
-class Order(models.Model):
-    pay_method_choices = (
-        (1, 'Credit Card'),
-        (2, 'AliPay'),
-        (3, 'WeChat')
-    )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    pay_method = models.SmallIntegerField(choices=pay_method_choices, default=1)
-    date = models.DateField()
+class ItemTypeEnum(IntEnum):
+    STARTER = 0
+    MAIN = 1
+    DESSERT = 2
+    DRINK = 3
 
-    class Meta:
-        db_table = 'order'
+    @classmethod
+    def tuples(cls):
+        return tuple((state.name, state.value) for state in cls)
+
+class Item(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=30)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    type = models.CharField(max_length=20, choices=ItemTypeEnum.tuples(), default=ItemTypeEnum.STARTER)
+
+    def __str__(self):
+        return self.name
+
+
+class OrderStateEnum(IntEnum):
+    PENDING = 0
+    ORDERED = 1
+    CANCELLED = 2
+    COMPLETED = 3
+
+    @classmethod
+    def tuples(cls): return tuple((state.name, state.value) for state in cls)
+
+
+class Order(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    # price = models.IntegerField(default=0)
+    # delivery_addr = models.CharField(max_length=50, blank=True)
+    state = models.CharField(max_length=20, choices=OrderStateEnum.tuples(), default=OrderStateEnum.PENDING)
+
+    def calculate_price(self):
+        return self.price
+
+    def order(self):
+        self.state = OrderStateEnum.ORDERED
+
+    def cancel(self):
+        self.state = OrderStateEnum.CANCELLED
+
+    def complete(self):
+        self.state = OrderStateEnum.COMPLETED
+
+    def __str__(self):
+        return str(self.id) + ' ' + self.state
+
+
+class OrderItem(models.Model):
+    id = models.AutoField(primary_key=True)
+    item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
+    ord_id = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.id)
+
+
