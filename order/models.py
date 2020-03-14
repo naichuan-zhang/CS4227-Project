@@ -13,6 +13,7 @@ class ItemTypeEnum(IntEnum):
     def tuples(cls):
         return tuple((state.name, state.value) for state in cls)
 
+
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
@@ -37,7 +38,7 @@ class Order(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
-    price = price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     # delivery_addr = models.CharField(max_length=50, blank=True)
     state = models.CharField(max_length=20, choices=OrderStateEnum.tuples(), default=OrderStateEnum.PENDING)
 
@@ -54,7 +55,7 @@ class Order(models.Model):
         self.state = OrderStateEnum.COMPLETED
 
     def __str__(self):
-        return str(self.id) + ' ' + self.state
+        return str(self.id) + ' ' + str(self.state)
 
 
 class OrderItem(models.Model):

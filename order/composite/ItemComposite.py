@@ -16,7 +16,7 @@ class ItemComposite(MenuItem):
         items = "*** " + self.title + " ***"
         for item in self.items:
             items += " - " + item.get_name()
-        return item.get_name()
+        return items
 
     def add(self, item):
         self.items.append(item)
