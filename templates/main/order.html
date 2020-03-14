@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="options">
-        <a href="{% url 'create_order' %}">Create Order</a>
-        <br>
-        <a href="{% url 'view_orders' %}">View Previous Orders</a>
+    <div class="list-group">
+        <a href="{% url 'create_order' %}" class="list-group-item">Create Order</a>
+        <a href="{% url 'view_orders' %}" class="list-group-item">View Previous Orders</a>
     </div>
 {% endblock %}

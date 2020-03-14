@@ -1,1 +1,22 @@
 {% extends 'base.html' %}
+
+{% block content %}
+    <div class="container ">
+        <h3 class="text-danger"><strong>Orders</strong></h3>
+        <br>
+        <table class="table table-hover table-bordered">
+            <thead>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Status</th>
+            </thead>
+
+            {% for order in orders %}
+                <tr>
+					<td>{{order.timestamp}}</td>
+					<td>&euro; {{order.price}}</td>
+					<td>{{order.state}}</td>
+            {% endfor %}
+        </table>
+	</div>
+{% endblock %}
