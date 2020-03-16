@@ -11,7 +11,10 @@ class AbstractOrderOrderService(ABC):
 
 class OrderOrderService(AbstractOrderOrderService):
     def create_order(self, order: Order) -> Order:
-        # TODO: Interact with database here
+        # set the order to state ORDERED
+        order.order()
+        # save the order to database
+        order.save()
         return order
 
 
@@ -23,6 +26,8 @@ class AbstractCancelOrderService(ABC):
 
 class CancelOrderService(AbstractCancelOrderService):
     def cancel_order(self, order: Order) -> Order:
+        # set the order to state CANCELLED
         order.cancel()
-        # TODO: Cancel the order here
+        # save the order to database
+        order.save()
         return order
