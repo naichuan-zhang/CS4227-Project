@@ -5,14 +5,14 @@ from order.command.orderservices import AbstractOrderOrderService, AbstractCance
 from order.command.undoable import Undoable
 from order.models import Order
 
-ExecFunc = Callable[[Order], Order]
-UndoFunc = Callable[[Order], None]
+Execute = Callable[[Order], Order]
+Undo = Callable[[Order], None]
 
 
 class OrderCommand(Command, Undoable):
     """the concrete command"""
 
-    def __init__(self, order: Order, execute: ExecFunc, undo: UndoFunc):
+    def __init__(self, order: Order, execute: Execute, undo: Undo):
         self.__order = order
         self.__execute = execute
         self.__undo = undo
@@ -29,15 +29,15 @@ class OrderCommand(Command, Undoable):
 
     @classmethod
     def _for_create_order(cls, service: AbstractOrderOrderService, order: Order) -> 'OrderCommand':
-        exec_func: ExecFunc = lambda o: service.create_order(o)
-        undo_func: UndoFunc = lambda o: order.delete()
+        exec_func: Execute = lambda o: service.create_order(o)
+        undo_func: Undo = lambda o: order.delete()
         return cls(order, exec_func, undo_func)
 
     @classmethod
     def _for_cancel_order(cls, service: AbstractCancelOrderService, order: Order) -> 'OrderCommand':
-        exec_func: ExecFunc = lambda o: service.cancel_order(o)
+        exec_func: Execute = lambda o: service.cancel_order(o)
         # TODO: Undo -> Need to be implemented here
-        undo_func: UndoFunc = lambda o: None
+        undo_func: Undo = lambda o: None
         return cls(order, exec_func, undo_func)
 
     def execute(self) -> Order:
