@@ -2,6 +2,7 @@
 
 {% block content %}
     <div class="list-group">
+        <a href="{% url 'show_food' %}" class="list-group-item">Show Food</a>
         <a href="{% url 'create_order' %}" class="list-group-item">Create Order</a>
         <a href="{% url 'view_orders' %}" class="list-group-item">View Previous Orders</a>
     </div>

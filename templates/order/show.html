@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'app/main/js/show.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+    <div id="show-food">
+        <!-- show all food types -->
+        <aside>
+            <ul>
+                {% for type_name in types %}
+                    <li>
+                        <a href="{% url 'show_food_by_type' type=type_name %}">{{ type_name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </aside>
+        <menu>
+            <ul>
+                {% for item in items %}
+                    <li>
+                        <a href="#">
+                            <img src="{{ item.image }}" alt="{{ item.name }}">
+                            <div class="item-info">
+                                <h6>{{ item.name }}</h6>
+                                <h7>&euro; {{ item.price }}</h7><br>
+                                <h7>Current Stock: {{ item.stock }}</h7>
+                            </div>
+                        </a>
+                        <section class="section">
+                            <button class="minus">-</button>
+                            <span class="amount">0</span>
+                            <button class="plus">+</button>
+                        </section>
+                    </li>
+                {% endfor %}
+            </ul>
+        </menu>
+    </div>
+{% endblock %}

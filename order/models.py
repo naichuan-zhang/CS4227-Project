@@ -21,6 +21,14 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField(default=100)
 
+    @staticmethod
+    def get_types():
+        return Item.objects.order_by().values_list('type', flat=True).distinct()
+
+    @staticmethod
+    def get_items_by_type(type_):
+        return Item.objects.filter(type=type_)
+
     def __str__(self):
         return self.name
 
