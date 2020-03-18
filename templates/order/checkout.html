@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container ">
+        <h3 class="text-danger"><strong>Checkout</strong></h3>
+        <br>
+        <table class="table table-hover table-bordered">
+            <thead>
+                <th>List</th>
+                <th>Price</th>
+            </thead>
+            <tr>
+                <td><p>{{composite.get_name}}</p></td>
+                <td>&euro; {{composite.get_price}}</td>
+            </tr>
+        </table>
+	</div>
+{% endblock %}

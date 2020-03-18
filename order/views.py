@@ -1,7 +1,13 @@
+from collections import Counter
+
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from order.models import Item, Order
+from order.composite.itemcomposite import ItemComposite
+from order.composite.itemleaf import ItemLeaf
+from order.factory.orderitemfactory import OrderItemFactory
+from order.models import Item, Order, ItemTypeEnum, OrderStateEnum
+from user.models import User
 
 
 def order(request):
@@ -42,3 +48,53 @@ def show_food_by_type(request, type):
         'types': types,
     }
     return render(request, 'order/show.html', context=context)
+
+
+def checkout(request):
+    if request.POST:
+        addr = request.POST['address']
+        ordid = request.POST['oid']
+        Order.objects.filter(id=int(ordid)).update(delivery_addr=addr, status=Order.ORDER_STATE_PLACED)
+        return redirect('/orderplaced/')
+    else:
+        user_id = request.session.get('user_id')
+        user = User.objects.get(id=user_id)
+        try:
+            order = Order.objects.get(user=user, state=OrderStateEnum.PENDING)
+        except Order.DoesNotExist:
+            order = Order(user=user)
+            order.save()
+
+        cart = request.COOKIES['cart'].split(",")
+        cart = dict(Counter(cart))
+
+        item_composite = ItemComposite("Order")
+        main_composite = ItemComposite("Mains")
+        side_composite = ItemComposite("Sides")
+        drink_composite = ItemComposite("Drinks")
+        factory = OrderItemFactory()
+
+        list = []
+        for i, c in cart.items():
+            item = Item.objects.get(id=int(i))
+            list.append(len(item.type))
+            if item:
+                factory.create_order_item(item, order, c)
+
+                if item.type == 'MAIN':
+                    main_composite.add(ItemLeaf(item, c))
+                elif item.type == 'SIDE':
+                    side_composite.add(ItemLeaf(item, c))
+                else:
+                    drink_composite.add(ItemLeaf(item, c))
+
+        item_composite.add(main_composite)
+        item_composite.add(side_composite)
+        item_composite.add(drink_composite)
+
+        context = {
+            "composite": item_composite,
+            "list": list,
+        }
+
+        return render(request, 'order/checkout.html', context)

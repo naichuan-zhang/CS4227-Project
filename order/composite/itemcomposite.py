@@ -11,16 +11,16 @@ class ItemComposite(ItemComponent):
         self._items: List[ItemComponent] = list()
 
     def get_price(self):
-        price = 0
+        price: float = 0.0
         for item in self._items:
-            price += item.get_price()
+            price += float(item.get_price())
         return price
 
     def get_name(self):
         items = "*** " + self._title + " ***"
-        items += "<br>"
         for item in self._items:
-            items += "<br>" + item.get_name()
+            items += " + " + item.get_name()
+        items += " "
         return items
 
     def add(self, item: ItemComponent):

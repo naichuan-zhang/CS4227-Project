@@ -28,8 +28,14 @@ class Item(models.Model):
     def get_items_by_type(type_):
         return Item.objects.filter(type=type_)
 
+    def get_name(self):
+        return str(self.name)
+
+    def get_price(self):
+        return self.price
+
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class OrderStateEnum(IntEnum):
@@ -63,8 +69,8 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     id = models.AutoField(primary_key=True)
-    item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
-    ord_id = models.ForeignKey(Order, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     amount = models.IntegerField(default=1)
 
     def __str__(self):

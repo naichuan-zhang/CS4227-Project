@@ -17,6 +17,23 @@
 					<td>{{item.name}}</td>
 					<td>{{item.type}}</td>
 					<td>&euro; {{item.price}}</td>
+                    <td>
+                        <section class="section">
+                            <button id="down"
+                                    onclick="if(document.querySelector('#itemno{{item.id}}').innerHTML>0){
+                                        document.querySelector('#itemno{{item.id}}').innerHTML--;
+                                        minuscounter('{{item.id}}');
+                                    }">-
+                            </button>
+                            <span id='itemno{{item.id}}'> 0 </span>
+                            <button id="up"
+                                    onclick="if(document.querySelector('#itemno{{item.id}}').innerHTML<{{item.stock}}){
+                                        document.querySelector('#itemno{{item.id}}').innerHTML++;
+                                        pluscounter('{{item.id}}');
+                                    }">+
+                            </button>
+                        </section>
+					</td>
                 </tr>
             {% endfor %}
         </table>
@@ -24,4 +41,31 @@
     <div class="container">
 		<input type="button" class="btn btn-success btn-lg pull-right" onclick="storearray();" value="Checkout"/>
 	</div>
+
+    <script type="text/javascript">
+        var cart = [];
+
+        function pluscounter(pk){
+            cart.push(pk);
+            console.log(cart);
+        };
+
+        function minuscounter(pk){
+            if (cart!=[]){
+                var removeindex = cart.indexOf(pk);
+                cart.splice(removeindex, 1);
+                }
+                console.log(cart);
+        };
+
+        function storearray(){
+            if(cart.length === 0)
+            {
+                alert('No items selected');
+                return false;
+            }
+            document.cookie = "cart="+cart+";Path=/";
+            window.location = "/order/checkout/";
+        };
+    </script>
 {% endblock %}
