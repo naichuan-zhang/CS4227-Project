@@ -9,36 +9,65 @@
 
 {% block content %}
     <div id="show-food">
+        <h3 class="text-danger"><strong>Menu</strong></h3>
         <!-- show all food types -->
         <aside>
-            <ul>
+{#            <ul>#}
+{#                {% for type_name in types %}#}
+{#                    <li>#}
+{#                        <a href="{% url 'show_food_by_type' type=type_name %}">{{ type_name }}</a>#}
+{#                    </li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+            <div class="list-group">
                 {% for type_name in types %}
-                    <li>
-                        <a href="{% url 'show_food_by_type' type=type_name %}">{{ type_name }}</a>
-                    </li>
+                    <a href="{% url 'show_food_by_type' type=type_name %}" class="list-group-item">{{ type_name }}</a>
                 {% endfor %}
-            </ul>
+            </div>
         </aside>
         <menu>
-            <ul>
-                {% for item in items %}
-                    <li>
-                        <a href="#">
-                            <img src="{{ item.image }}" alt="{{ item.name }}">
-                            <div class="item-info">
-                                <h6>{{ item.name }}</h6>
-                                <h7>&euro; {{ item.price }}</h7><br>
-                                <h7>Current Stock: {{ item.stock }}</h7>
-                            </div>
-                        </a>
+{#            <ul>#}
+{#                {% for item in items %}#}
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img src="{{ item.image }}" alt="{{ item.name }}">#}
+{#                            <div class="item-info">#}
+{#                                <h6>{{ item.name }}</h6>#}
+{#                                <h7>&euro; {{ item.price }}</h7><br>#}
+{#                                <h7>Current Stock: {{ item.stock }}</h7>#}
+{#                            </div>#}
+{#                        </a>#}
+{#                        <section class="section">#}
+{#                            <button class="minus">-</button>#}
+{#                            <span class="amount">0</span>#}
+{#                            <button class="plus">+</button>#}
+{#                        </section>#}
+{#                    </li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+            <table class="table table-hover table-bordered">
+            <thead>
+                    <th>Item Name</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Add</th>
+            </thead>
+
+            {% for item in items %}
+                <tr>
+					<td>{{item.name}}</td>
+					<td>&euro; {{item.price}}</td>
+                    <td>{{ item.stock }}</td>
+                    <td>
                         <section class="section">
                             <button class="minus">-</button>
                             <span class="amount">0</span>
                             <button class="plus">+</button>
                         </section>
-                    </li>
-                {% endfor %}
-            </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
         </menu>
     </div>
 {% endblock %}

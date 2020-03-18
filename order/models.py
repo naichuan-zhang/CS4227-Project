@@ -4,10 +4,9 @@ from user.models import User
 
 
 class ItemTypeEnum(IntEnum):
-    STARTER = 0
-    MAIN = 1
-    DESSERT = 2
-    DRINK = 3
+    MAIN = 0
+    SIDE = 1
+    DRINK = 2
 
     @classmethod
     def tuples(cls):
@@ -17,7 +16,7 @@ class ItemTypeEnum(IntEnum):
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
-    type = models.CharField(max_length=20, choices=ItemTypeEnum.tuples(), default=ItemTypeEnum.STARTER)
+    type = models.CharField(max_length=20, choices=ItemTypeEnum.tuples(), default=ItemTypeEnum.MAIN)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField(default=100)
 
@@ -47,12 +46,7 @@ class Order(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=100.0)
-    # delivery_addr = models.CharField(max_length=50, blank=True)
     state = models.CharField(max_length=20, choices=OrderStateEnum.tuples(), default=OrderStateEnum.PENDING)
-
-    def calculate_price(self):
-        return self.price
 
     def order(self):
         self.state = OrderStateEnum.ORDERED
