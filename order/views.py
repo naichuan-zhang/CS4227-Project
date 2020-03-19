@@ -1,12 +1,13 @@
 from collections import Counter
 
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from order.composite.itemcomposite import ItemComposite
 from order.composite.itemleaf import ItemLeaf
 from order.factory.orderitemfactory import OrderItemFactory
-from order.models import Item, Order, ItemTypeEnum, OrderStateEnum
+from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, OrderItem
 from user.models import User
 
 
@@ -50,11 +51,26 @@ def show_food_by_type(request, type):
     return render(request, 'order/show.html', context=context)
 
 
+# middleware is used to ensure user has logged in
+def add_to_order(request):
+    itemId = request.GET.get('itemId')
+    orders = Order.objects.filter(order__user=request.user).filter(item__id=itemId)
+    if orders.exists():
+        order_obj = orders.first()
+    else:
+        order_obj = Order()
+        order_obj.user = request.user
+    data = {
+        'status': 200,
+    }
+    return JsonResponse(data=data)
+
+
 def checkout(request):
-    if request.POST:
+    if request.method == 'POST':
         addr = request.POST['address']
         ordid = request.POST['oid']
-        Order.objects.filter(id=int(ordid)).update(delivery_addr=addr, status=Order.ORDER_STATE_PLACED)
+        Order.objects.filter(id=int(ordid)).update(delivery_addr=addr, state=Order.ORDER_STATE_PLACED)
         return redirect('/orderplaced/')
     else:
         user_id = request.session.get('user_id')
