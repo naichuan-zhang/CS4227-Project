@@ -11,4 +11,5 @@ urlpatterns = [
     path('showbytype/<str:type>', views.show_food_by_type, name='show_food_by_type'),
     path('addtocart/', views.add_to_cart, name='add_to_cart'),
     path('showcart/', views.show_cart, name='show_cart'),
+    path('makeorder/', views.make_order, name='make_order'),
 ]

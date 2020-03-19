@@ -86,13 +86,11 @@ class Order(models.Model):
         return str(self.id) + ' ' + str(self.state)
 
 
-# class OrderItem(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-#     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-#     amount = models.IntegerField(default=1)
-#
-#     def __str__(self):
-#         return str(self.id)
+class OrderItem(models.Model):
+    id = models.AutoField(primary_key=True)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    amount = models.IntegerField(default=1)
 
-
+    def __str__(self):
+        return str(self.id)

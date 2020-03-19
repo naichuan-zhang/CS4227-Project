@@ -6,8 +6,8 @@ from django.urls import reverse
 
 from order.composite.itemcomposite import ItemComposite
 from order.composite.itemleaf import ItemLeaf
-# from order.factory.orderitemfactory import OrderItemFactory
-from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, Cart
+from order.factory.orderitemfactory import OrderItemFactory
+from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, Cart, OrderItem
 from user.models import User
 
 
@@ -84,51 +84,74 @@ def show_cart(request):
     return render(request, 'main/cart.html', context=context)
 
 
-def checkout(request):
-    if request.method == 'POST':
-        addr = request.POST['address']
-        ordid = request.POST['oid']
-        Order.objects.filter(id=int(ordid)).update(delivery_addr=addr, state=Order.ORDER_STATE_PLACED)
-        return redirect('/orderplaced/')
-    else:
-        user_id = request.session.get('user_id')
-        user = User.objects.get(id=user_id)
-        try:
-            order = Order.objects.get(user=user, state=OrderStateEnum.PENDING)
-        except Order.DoesNotExist:
-            order = Order(user=user)
-            order.save()
+# TODO: part of checkout() method: for making an order
+def make_order(request):
+    carts = Cart.objects.filter(is_selected=True).filter(user=request.user)
+    order = Order()
+    order.user = request.user
+    order.total_price = Cart.get_total_price()
+    order.save()
+    for cart in carts:
+        orderitem = OrderItem()
+        orderitem.order = order
+        orderitem.item = cart.item
+        orderitem.amount = cart.num
+        orderitem.save()
+        # Has to delete cart object
+        cart.delete()
+    data = {
+        'status': 200,
+        'msg': 'ok',
+        'order_id': order.id,
+    }
+    return JsonResponse(data)
 
-        cart = request.COOKIES['cart'].split(",")
-        cart = dict(Counter(cart))
 
-        item_composite = ItemComposite("Order")
-        main_composite = ItemComposite("Mains")
-        side_composite = ItemComposite("Sides")
-        drink_composite = ItemComposite("Drinks")
-        # factory = OrderItemFactory()
-
-        list = []
-        for i, c in cart.items():
-            item = Item.objects.get(id=int(i))
-            list.append(len(item.type))
-            if item:
-                # factory.create_order_item(item, order, c)
-
-                if item.type == 'MAIN':
-                    main_composite.add(ItemLeaf(item, c))
-                elif item.type == 'SIDE':
-                    side_composite.add(ItemLeaf(item, c))
-                else:
-                    drink_composite.add(ItemLeaf(item, c))
-
-        item_composite.add(main_composite)
-        item_composite.add(side_composite)
-        item_composite.add(drink_composite)
-
-        context = {
-            "composite": item_composite,
-            "list": list,
-        }
-
-        return render(request, 'order/checkout.html', context)
+# def checkout(request):
+#     if request.method == 'POST':
+#         addr = request.POST['address']
+#         ordid = request.POST['oid']
+#         Order.objects.filter(id=int(ordid)).update(delivery_addr=addr, state=Order.ORDER_STATE_PLACED)
+#         return redirect('/orderplaced/')
+#     else:
+#         user_id = request.session.get('user_id')
+#         user = User.objects.get(id=user_id)
+#         try:
+#             order = Order.objects.get(user=user, state=OrderStateEnum.PENDING)
+#         except Order.DoesNotExist:
+#             order = Order(user=user)
+#             order.save()
+#
+#         cart = request.COOKIES['cart'].split(",")
+#         cart = dict(Counter(cart))
+#
+#         item_composite = ItemComposite("Order")
+#         main_composite = ItemComposite("Mains")
+#         side_composite = ItemComposite("Sides")
+#         drink_composite = ItemComposite("Drinks")
+#         # factory = OrderItemFactory()
+#
+#         list = []
+#         for i, c in cart.items():
+#             item = Item.objects.get(id=int(i))
+#             list.append(len(item.type))
+#             if item:
+#                 # factory.create_order_item(item, order, c)
+#
+#                 if item.type == 'MAIN':
+#                     main_composite.add(ItemLeaf(item, c))
+#                 elif item.type == 'SIDE':
+#                     side_composite.add(ItemLeaf(item, c))
+#                 else:
+#                     drink_composite.add(ItemLeaf(item, c))
+#
+#         item_composite.add(main_composite)
+#         item_composite.add(side_composite)
+#         item_composite.add(drink_composite)
+#
+#         context = {
+#             "composite": item_composite,
+#             "list": list,
+#         }
+#
+#         return render(request, 'order/checkout.html', context)
