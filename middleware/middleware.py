@@ -6,7 +6,8 @@ from django.utils.deprecation import MiddlewareMixin
 from user.models import User
 
 LOGIN_LIST = [
-    '/order/addtoorder/',
+    '/order/addtocart/',
+    '/order/showcart/',
 ]
 
 

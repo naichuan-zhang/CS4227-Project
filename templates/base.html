@@ -35,6 +35,7 @@
               {% if request.session.user_id %}
                 <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
                 <a class="nav-item nav-link" href="{% url 'show_food' %}">Food</a>
+                <a class="nav-item nav-link" href="{% url 'show_cart' %}">Cart</a>
                 <a class="nav-item nav-link" href="{% url 'order' %}">Order</a>
                 <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
               {% else %}

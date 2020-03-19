@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'app/main/js/cart.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="title">
+        <h3>Your Items: </h3>
+    </div>
+    <table class="table table-hover table-bordered" id="cart-table">
+        {% for cart in carts %}
+            <div class="cart-list" cartid="{{ cart.id }}">
+                <tr>
+                    <td>
+                        <span></span>
+                    </td>
+					<td><b>{{ cart.item.name }}</b></td>
+                    <td>
+                        <p class="presentPrice">&euro; {{ cart.item.price }}</p>
+                    </td>
+                    <td>
+                        <section class="section">
+                            <button>-</button>
+                            <span>{{ cart.num }}</span>
+                            <button>+</button>
+                        </section>
+                    </td>
+                </tr>
+            </div>
+        {% endfor %}
+    </table>
+    <div class="total-price">
+        <p>
+            <span><b>Total Price: </b>&euro;</span>
+            <span>{{ total_price }}</span>
+        </p>
+    </div>
+    <div class="order">
+		<input type="button" class="btn btn-success btn-lg pull-right" value="Order Now"/>
+	</div>
+{% endblock %}

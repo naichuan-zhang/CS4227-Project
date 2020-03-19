@@ -38,6 +38,22 @@ class Item(models.Model):
         return str(self.name)
 
 
+class Cart(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
+    num = models.IntegerField(default=1)
+    is_selected = models.BooleanField(default=True)
+
+    @staticmethod
+    def get_total_price():
+        carts = Cart.objects.filter(is_selected=True)
+        total_price = 0
+        for cart in carts:
+            total_price += cart.num * cart.item.price
+        return total_price
+
+
 class OrderStateEnum(IntEnum):
     PENDING = 0
     ORDERED = 1
@@ -51,6 +67,9 @@ class OrderStateEnum(IntEnum):
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # total price
+    total_price = models.FloatField(default=0.0)
+
     timestamp = models.DateTimeField(auto_now_add=True)
     state = models.CharField(max_length=20, choices=OrderStateEnum.tuples(), default=OrderStateEnum.PENDING)
 
@@ -67,13 +86,13 @@ class Order(models.Model):
         return str(self.id) + ' ' + str(self.state)
 
 
-class OrderItem(models.Model):
-    id = models.AutoField(primary_key=True)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    amount = models.IntegerField(default=1)
-
-    def __str__(self):
-        return str(self.id)
+# class OrderItem(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+#     order = models.ForeignKey(Order, on_delete=models.CASCADE)
+#     amount = models.IntegerField(default=1)
+#
+#     def __str__(self):
+#         return str(self.id)
 
 

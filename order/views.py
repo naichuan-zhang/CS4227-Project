@@ -6,8 +6,8 @@ from django.urls import reverse
 
 from order.composite.itemcomposite import ItemComposite
 from order.composite.itemleaf import ItemLeaf
-from order.factory.orderitemfactory import OrderItemFactory
-from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, OrderItem
+# from order.factory.orderitemfactory import OrderItemFactory
+from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, Cart
 from user.models import User
 
 
@@ -52,18 +52,36 @@ def show_food_by_type(request, type):
 
 
 # middleware is used to ensure user has logged in
-def add_to_order(request):
+def add_to_cart(request):
     itemId = request.GET.get('itemId')
-    orders = Order.objects.filter(order__user=request.user).filter(item__id=itemId)
-    if orders.exists():
-        order_obj = orders.first()
+    carts = Cart.objects.filter(item_id=itemId).filter(user=request.user)
+    if carts.exists():
+        cart_obj = carts.first()
+        cart_obj.num = cart_obj.num + 1
     else:
-        order_obj = Order()
-        order_obj.user = request.user
+        cart_obj = Cart()
+        cart_obj.item_id = itemId
+        cart_obj.user = request.user
+    cart_obj.save()
     data = {
         'status': 200,
+        'msg': "An item has been added to cart successfully!",
+        'num': cart_obj.num,
     }
     return JsonResponse(data=data)
+
+
+def show_cart(request):
+    carts = Cart.objects.filter(user=request.user)
+    is_all_selected = carts.filter(is_selected=False).exists()
+    total_price = Cart.get_total_price()
+    context = {
+        'title': 'My Cart',
+        'carts': carts,
+        'is_all_selected': is_all_selected,
+        'total_price': total_price,
+    }
+    return render(request, 'main/cart.html', context=context)
 
 
 def checkout(request):
@@ -88,14 +106,14 @@ def checkout(request):
         main_composite = ItemComposite("Mains")
         side_composite = ItemComposite("Sides")
         drink_composite = ItemComposite("Drinks")
-        factory = OrderItemFactory()
+        # factory = OrderItemFactory()
 
         list = []
         for i, c in cart.items():
             item = Item.objects.get(id=int(i))
             list.append(len(item.type))
             if item:
-                factory.create_order_item(item, order, c)
+                # factory.create_order_item(item, order, c)
 
                 if item.type == 'MAIN':
                     main_composite.add(ItemLeaf(item, c))
