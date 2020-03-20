@@ -8,6 +8,7 @@ from order.composite.itemcomposite import ItemComposite
 from order.composite.itemleaf import ItemLeaf
 from order.factory.orderitemfactory import OrderItemFactory
 from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, Cart, OrderItem
+from order.orderframework import OrderFramework
 from user.models import User
 
 
@@ -85,24 +86,26 @@ def show_cart(request):
 
 
 # TODO: part of checkout() method: for making an order
+# make_order() func has been tested with Command DP.
 def make_order(request):
     carts = Cart.objects.filter(is_selected=True).filter(user=request.user)
-    order = Order()
-    order.user = request.user
-    order.total_price = Cart.get_total_price()
-    order.save()
+    framework = OrderFramework()
+    # Command DP used here...
+    user_id = request.user.id
+    total_price = Cart.get_total_price()
+    order_obj = framework.create_order(user_id=user_id, total_price=total_price)
     for cart in carts:
         orderitem = OrderItem()
-        orderitem.order = order
+        orderitem.order = order_obj
         orderitem.item = cart.item
         orderitem.amount = cart.num
         orderitem.save()
-        # Has to delete cart object
+        # delete all the items in Cart once order has been finished
         cart.delete()
     data = {
         'status': 200,
         'msg': 'ok',
-        'order_id': order.id,
+        'order_id': order_obj.id,
     }
     return JsonResponse(data)
 

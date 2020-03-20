@@ -8,6 +8,7 @@ from user.models import User
 LOGIN_LIST = [
     '/order/addtocart/',
     '/order/showcart/',
+    '/order/makeorder/',
 ]
 
 

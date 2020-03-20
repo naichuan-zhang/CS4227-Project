@@ -12,10 +12,10 @@ class OrderFramework:
         self.__create_order_service = OrderOrderService()
         self.__cancel_order_service = CancelOrderService()
 
-    def create_order(self, order_id: int, user_id: int) -> Order:
+    def create_order(self, user_id: int, total_price: float) -> Order:
         # TODO: Might use a creational design pattern for order here ???
         user = User.objects.get(id=user_id)
-        order = Order(id=order_id, user=user)
+        order = Order(user=user, total_price=total_price)
         return self.__command_manager.execute(
             OrderCommand.order_service(self.__create_order_service, order))
         # return self.__order_command.set_order(order)\
