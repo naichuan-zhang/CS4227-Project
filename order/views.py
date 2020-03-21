@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from order.composite.itemcomposite import ItemComposite
 from order.composite.itemleaf import ItemLeaf
+from order.factory.discountfactory import DiscountFactory
 from order.factory.orderitemfactory import OrderItemFactory
 from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, Cart, OrderItem
 from order.orderframework import OrderFramework
@@ -26,12 +27,38 @@ def create_order(request):
 
 
 def view_orders(request):
-
-    orders = Order.objects.all()
+    user = request.user
+    orders = Order.objects.filter(user=user)
     context = {
         'orders': orders,
     }
     return render(request, 'order/view_orders.html', context)
+
+
+def view_order(request):
+    order_id = request.COOKIES['order_id']
+    order = Order.objects.get(id=order_id)
+
+    item_composite = ItemComposite()
+    order_items = OrderItem.objects.filter(order=order)
+    for item in order_items:
+        o_i = ItemLeaf(item.item, item.amount)
+        item_composite.add(o_i)
+
+    user = request.user
+    orders = Order.objects.filter(user=user)
+
+    discount_factory = DiscountFactory()
+    discount = discount_factory.create_discount(orders.count())
+
+    total_price = item_composite.get_price() * discount.get_discount()
+    discount_amount = item_composite.get_price() - total_price
+    context = {
+        'items': order_items,
+        'total_price': total_price,
+        'discount_amount': discount_amount,
+    }
+    return render(request, 'order/view_order.html', context)
 
 
 # show food

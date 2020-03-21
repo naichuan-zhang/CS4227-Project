@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container ">
+        <h3 class="text-danger"><strong>View Order</strong></h3>
+        <br>
+        <table class="table table-hover table-bordered">
+            <thead>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+            </thead>
+            {% for i in items %}
+                <tr>
+					<td>{{i.item.name}}</td>
+					<td>{{i.amount}}</td>
+					<td>{{i.item.price}}
+                </tr>
+            {% endfor %}
+            <tr><td></td><td></td><td></td></tr>
+            <thead>
+                    <th></th>
+                    <th>Discount</th>
+                    <th>{{discount_amount}}</th>
+            </thead>
+            <thead>
+                    <th></th>
+                    <th>Total Price</th>
+                    <th>{{total_price}}</th>
+            </thead>
+        </table>
+        <a href="{% url 'view_orders' %}">Go back</a>
+	</div>
+{% endblock %}

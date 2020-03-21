@@ -8,6 +8,6 @@ class ItemComponent(ABC):
     def get_price(self):
         raise NotImplementedError("You should implement this.")
 
-    @abstractmethod
-    def get_name(self):
-        raise NotImplementedError("You should implement this.")
+    # @abstractmethod
+    # def get_name(self):
+    #     raise NotImplementedError("You should implement this.")

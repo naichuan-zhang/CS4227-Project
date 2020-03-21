@@ -6,8 +6,8 @@ from order.composite.itemcomponent import ItemComponent
 class ItemComposite(ItemComponent):
     """Composite"""
 
-    def __init__(self, title):
-        self._title = title
+    def __init__(self):
+        # self._title = title
         self._items: List[ItemComponent] = list()
 
     def get_price(self):
@@ -16,12 +16,12 @@ class ItemComposite(ItemComponent):
             price += float(item.get_price())
         return price
 
-    def get_name(self):
-        items = "*** " + self._title + " ***"
-        for item in self._items:
-            items += " + " + item.get_name()
-        items += " "
-        return items
+    # def get_name(self):
+    #     items = "*** " + self._title + " ***"
+    #     for item in self._items:
+    #         items += " + " + item.get_name()
+    #     items += " "
+    #     return items
 
     def add(self, item: ItemComponent):
         self._items.append(item)

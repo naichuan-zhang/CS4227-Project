@@ -9,6 +9,9 @@ LOGIN_LIST = [
     '/order/addtocart/',
     '/order/showcart/',
     '/order/makeorder/',
+    '/order/create/',
+    '/order/previous/',
+    '/order/previous/view/',
 ]
 
 

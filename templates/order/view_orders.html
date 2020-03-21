@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'app/main/js/view_orders.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <div class="container ">
@@ -7,16 +13,22 @@
         <table class="table table-hover table-bordered">
             <thead>
                     <th>Date</th>
-                    <th>Price</th>
                     <th>Status</th>
+                    <th></th>
             </thead>
 
             {% for order in orders %}
                 <tr>
 					<td>{{order.timestamp}}</td>
-					<td>&euro; {{order.price}}</td>
 					<td>{{order.state}}</td>
+					<td>
+                        <button onclick="view_order({{order.id}})">
+                            View
+                        </button>
+                    </td>
+                </tr>
             {% endfor %}
         </table>
+        <a href="{% url 'order' %}">Go back</a>
 	</div>
 {% endblock %}

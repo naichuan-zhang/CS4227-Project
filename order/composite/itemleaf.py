@@ -12,5 +12,5 @@ class ItemLeaf(ItemComponent):
     def get_price(self):
         return self._item.price * self._amount
 
-    def get_name(self):
-        return self._item.name + " x" + str(self._amount)
+    # def get_name(self):
+    #     return self._item.name + " x" + str(self._amount)
