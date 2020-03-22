@@ -8,6 +8,7 @@ from order.composite.itemcomposite import ItemComposite
 from order.composite.itemleaf import ItemLeaf
 from order.factory.discountfactory import DiscountFactory
 from order.factory.orderitemfactory import OrderItemFactory
+from order.memento.memento import Memento
 from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, Cart, OrderItem
 from order.orderframework import OrderFramework
 from user.models import User
@@ -145,13 +146,22 @@ def minus_item(request):
         'msg': 'ok',
 
     }
-    if cart.num > 1:
-        cart.num = cart.num - 1
+    original_num = cart.num
+    memento = Memento(original_num)
+    try:
+        if cart.num > 1:
+            cart.num = cart.num - 1
+            cart.save()
+            data['num'] = cart.num
+            memento.save_state()
+        else:
+            cart.delete()
+            data['num'] = 0
+            memento.save_state()
+    except:
+        memento.restore_state(original_num)
+        cart.num = original_num
         cart.save()
-        data['num'] = cart.num
-    else:
-        cart.delete()
-        data['num'] = 0
     data['total_price'] = Cart.get_total_price()
 
     return JsonResponse(data)
@@ -164,8 +174,15 @@ def plus_item(request):
         'status': 200,
         'msg': 'ok',
     }
-    cart.num = cart.num + 1
-    cart.save()
+    original_num = cart.num
+    memento = Memento(original_num)
+    try:
+        cart.num = cart.num + 1
+        cart.save()
+    except:
+        memento.restore_state(original_num)
+        cart.num = original_num
+        cart.save()
     data['num'] = cart.num
     data['total_price'] = Cart.get_total_price()
 
