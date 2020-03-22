@@ -14,7 +14,7 @@
     </div>
     <table class="table table-hover table-bordered" id="cart-table">
         {% for cart in carts %}
-            <div class="cart-list" cartid="{{ cart.id }}">
+            <div class="cart-list">
                 <tr>
                     <td>
                         <span></span>
@@ -23,11 +23,11 @@
                     <td>
                         <p class="presentPrice">&euro; {{ cart.item.price }}</p>
                     </td>
-                    <td>
+                    <td cartid="{{ cart.id }}">
                         <section class="section">
-                            <button>-</button>
+                            <button class="minus">-</button>
                             <span>{{ cart.num }}</span>
-                            <button>+</button>
+                            <button class="plus">+</button>
                         </section>
                     </td>
                 </tr>
@@ -37,7 +37,7 @@
     <div class="total-price">
         <p>
             <span><b>Total Price: </b>&euro;</span>
-            <span>{{ total_price }}</span>
+            <span id="total-price">{{ total_price }}</span>
         </p>
     </div>
     <div class="order">

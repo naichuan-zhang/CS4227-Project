@@ -137,6 +137,41 @@ def make_order(request):
     return JsonResponse(data)
 
 
+def minus_item(request):
+    cartid = request.GET.get('cartid')
+    cart = Cart.objects.get(pk=cartid)
+    data = {
+        'status': 200,
+        'msg': 'ok',
+
+    }
+    if cart.num > 1:
+        cart.num = cart.num - 1
+        cart.save()
+        data['num'] = cart.num
+    else:
+        cart.delete()
+        data['num'] = 0
+    data['total_price'] = Cart.get_total_price()
+
+    return JsonResponse(data)
+
+
+def plus_item(request):
+    cartid = request.GET.get('cartid')
+    cart = Cart.objects.get(pk=cartid)
+    data = {
+        'status': 200,
+        'msg': 'ok',
+    }
+    cart.num = cart.num + 1
+    cart.save()
+    data['num'] = cart.num
+    data['total_price'] = Cart.get_total_price()
+
+    return JsonResponse(data)
+
+
 # def checkout(request):
 #     if request.method == 'POST':
 #         addr = request.POST['address']
