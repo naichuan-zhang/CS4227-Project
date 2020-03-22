@@ -1,4 +1,4 @@
-from typing import Callable, List, Tuple
+from typing import Callable, List
 
 from order.command.command import Command
 from order.command.orderservices import AbstractOrderOrderService, AbstractCancelOrderService
@@ -30,14 +30,13 @@ class OrderCommand(Command, Undoable):
     @classmethod
     def _for_create_order(cls, service: AbstractOrderOrderService, order: Order) -> 'OrderCommand':
         exec_func: Execute = lambda o: service.create_order(o)
-        undo_func: Undo = lambda o: order.delete()
+        undo_func: Undo = lambda o: service.undo(o)
         return cls(order, exec_func, undo_func)
 
     @classmethod
     def _for_cancel_order(cls, service: AbstractCancelOrderService, order: Order) -> 'OrderCommand':
         exec_func: Execute = lambda o: service.cancel_order(o)
-        # TODO: Undo -> Need to be implemented here
-        undo_func: Undo = lambda o: None
+        undo_func: Undo = lambda o: service.undo(o)
         return cls(order, exec_func, undo_func)
 
     def execute(self) -> Order:

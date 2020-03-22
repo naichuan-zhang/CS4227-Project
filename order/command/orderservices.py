@@ -8,6 +8,10 @@ class AbstractOrderOrderService(ABC):
     def create_order(self, order: Order) -> Order:
         raise NotImplementedError("You have to implement this")
 
+    @abstractmethod
+    def undo(self, order: Order):
+        raise NotImplementedError("You have to implement this")
+
 
 class OrderOrderService(AbstractOrderOrderService):
     def create_order(self, order: Order) -> Order:
@@ -17,10 +21,18 @@ class OrderOrderService(AbstractOrderOrderService):
         order.save()
         return order
 
+    def undo(self, order: Order):
+        order.cancel()
+        order.save()
+
 
 class AbstractCancelOrderService(ABC):
     @abstractmethod
     def cancel_order(self, order: Order) -> Order:
+        raise NotImplementedError("You have to implement this")
+
+    @abstractmethod
+    def undo(self, order: Order):
         raise NotImplementedError("You have to implement this")
 
 
@@ -31,3 +43,7 @@ class CancelOrderService(AbstractCancelOrderService):
         # save the order to database
         order.save()
         return order
+
+    def undo(self, order: Order):
+        order.order()
+        order.save()

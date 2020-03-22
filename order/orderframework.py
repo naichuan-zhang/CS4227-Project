@@ -27,3 +27,6 @@ class OrderFramework:
             OrderCommand.order_service(self.__cancel_order_service, order))
         # return self.__order_command.set_order(order)\
         #     .order_service(self.__cancel_order_service).execute()
+
+    def undo(self, times: int = 1):
+        self.__command_manager.undo(times=times)
