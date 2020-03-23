@@ -11,6 +11,7 @@ from order.factory.orderitemfactory import OrderItemFactory
 from order.memento.memento import Memento
 from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, Cart, OrderItem
 from order.orderframework import OrderFramework
+from order.visitor.stringvisitor import StringVisitor
 from user.models import User
 
 
@@ -239,3 +240,27 @@ def plus_item(request):
     data['discount'] = round(item_composite.get_price() - total_price, 2)
 
     return JsonResponse(data)
+
+
+def show_data(request):
+    strings = []
+    visitor = StringVisitor()
+    orders = Order.objects.all()
+    carts = Cart.objects.all()
+    items = Item.objects.all()
+
+    strings.append("***Orders***")
+    for o in orders:
+        strings.append(o.accept(visitor))
+    strings.append("***Carts***")
+    for c in carts:
+        strings.append(c.accept(visitor))
+    strings.append("***Items***")
+    for i in items:
+        strings.append(i.accept(visitor))
+
+    context = {
+        'strings': strings,
+    }
+
+    return render(request, 'order/data.html', context=context)

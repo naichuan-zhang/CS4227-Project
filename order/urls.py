@@ -15,4 +15,5 @@ urlpatterns = [
     path('makeorder/', views.make_order, name='make_order'),
     path('minusitem/', views.minus_item, name='minus_item'),
     path('plusitem/', views.plus_item, name='plus_item'),
+    path('data/', views.show_data, name='show_data'),
 ]

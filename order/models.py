@@ -1,5 +1,7 @@
 from enum import IntEnum
 from django.db import models
+
+from order.visitor.visitable import Visitable
 from user.models import User
 
 
@@ -14,7 +16,7 @@ class ItemTypeEnum(IntEnum):
         return tuple((state.name, state.value) for state in cls)
 
 
-class Item(models.Model):
+class Item(Visitable):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
     type = models.CharField(max_length=20, choices=ItemTypeEnum.tuples(), default=ItemTypeEnum.STARTER)
@@ -38,8 +40,11 @@ class Item(models.Model):
     def __str__(self):
         return str(self.name)
 
+    def accept(self, visitor):
+        return visitor.visit(self)
 
-class Cart(models.Model):
+
+class Cart(Visitable):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE, null=True)
@@ -54,6 +59,9 @@ class Cart(models.Model):
             total_price += cart.num * cart.item.price
         return total_price
 
+    def accept(self, visitor):
+        return visitor.visit(self)
+
 
 class OrderStateEnum(IntEnum):
     PENDING = 0
@@ -65,7 +73,7 @@ class OrderStateEnum(IntEnum):
     def tuples(cls): return tuple((state.name, state.value) for state in cls)
 
 
-class Order(models.Model):
+class Order(Visitable):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_price = models.FloatField(default=0.0)
@@ -83,6 +91,9 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.id) + ' ' + str(self.state)
+
+    def accept(self, visitor):
+        return visitor.visit(self)
 
 
 class OrderItem(models.Model):
