@@ -1,8 +1,10 @@
 $(function () {
 
-   $("#make-order").click(function () {
+   $("#checkout").click(function () {
       $.getJSON('/order/makeorder/', function (data) {
          console.log(data);
+         document.cookie = "order_id="+data["order_id"]+";Path=/";
+         window.location = "/order/previous/view/";
       });
    });
 

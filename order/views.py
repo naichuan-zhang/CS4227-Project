@@ -51,8 +51,8 @@ def view_order(request):
     discount_amount = item_composite.get_price() - total_price
     context = {
         'items': order_items,
-        'total_price': total_price,
-        'discount_amount': discount_amount,
+        'total_price': round(total_price, 2),
+        'discount_amount': round(discount_amount, 2),
     }
     return render(request, 'order/view_order.html', context)
 
@@ -137,7 +137,7 @@ def show_cart(request):
     return render(request, 'main/cart.html', context=context)
 
 
-# TODO: part of checkout() method: for making an order
+# TODO: Implement Payment
 # make_order() func has been tested with Command DP.
 def make_order(request):
     cart_items = Cart.objects.filter(is_selected=True).filter(user=request.user)
