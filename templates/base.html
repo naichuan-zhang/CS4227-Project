@@ -34,14 +34,13 @@
             <div class="navbar-nav mr-auto">
               {% if request.session.user_id %}
                 <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
-                <a class="nav-item nav-link" href="{% url 'show_food' %}">Food</a>
+                <a class="nav-item nav-link" href="{% url 'show_food' %}">Menu</a>
                 <a class="nav-item nav-link" href="{% url 'show_cart' %}">Cart</a>
-                <a class="nav-item nav-link" href="{% url 'order' %}">Order</a>
                 <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
               {% else %}
                 <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
 {#                NO NEED TO JUDGE IF USER HAS LOGGED IN OR NOT, MIDDLEWARE IS USED  #}
-                <a class="nav-item nav-link" href="{% url 'show_food' %}">Food</a>
+                <a class="nav-item nav-link" href="{% url 'show_food' %}">Menu</a>
                 <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
               {% endif %}
             </div>
@@ -68,15 +67,11 @@
         </div>
         <div class="col-md-4">
           <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
+            <h3>Quicklinks</h3>
               <ul class="list-group">
-                <li class="list-group-item list-group-item-light">One</li>
-                <li class="list-group-item list-group-item-light">Two</li>
-                <li class="list-group-item list-group-item-light">Three</li>
-                <li class="list-group-item list-group-item-light">etc</li>
+                  <li class="list-group-item list-group-item-light"><a href="{% url 'show_cart' %}">Go To Cart</a></li>
+                  <li class="list-group-item list-group-item-light"><a href="{% url 'view_orders' %}">View Previous Orders</a></li>
               </ul>
-            </p>
           </div>
         </div>
       </div>

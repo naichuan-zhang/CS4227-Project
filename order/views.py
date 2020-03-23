@@ -196,7 +196,16 @@ def minus_item(request):
         memento.restore_state(original_num)
         cart.num = original_num
         cart.save()
-    data['total_price'] = Cart.get_total_price()
+
+    user = request.user
+    cart_items = Cart.objects.filter(is_selected=True).filter(user=user)
+    item_composite = ItemComposite()
+    for item in cart_items:
+        item_leaf = ItemLeaf(item.item, item.num)
+        item_composite.add(item_leaf)
+    total_price = get_total_price(user, item_composite)
+    data['total_price'] = round(total_price, 2)
+    data['discount'] = round(item_composite.get_price() - total_price, 2)
 
     return JsonResponse(data)
 
@@ -218,7 +227,15 @@ def plus_item(request):
         cart.num = original_num
         cart.save()
     data['num'] = cart.num
-    data['total_price'] = Cart.get_total_price()
+
+    user = request.user
+    cart_items = Cart.objects.filter(is_selected=True).filter(user=user)
+    item_composite = ItemComposite()
+    for item in cart_items:
+        item_leaf = ItemLeaf(item.item, item.num)
+        item_composite.add(item_leaf)
+    total_price = get_total_price(user, item_composite)
+    data['total_price'] = round(total_price, 2)
+    data['discount'] = round(item_composite.get_price() - total_price, 2)
 
     return JsonResponse(data)
-

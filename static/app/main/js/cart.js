@@ -20,7 +20,7 @@ $(function () {
                $("#total-price").html(data['total_price']);
             } else {
                $td.remove();
-               $("#total-price").html(0)
+               $("#total-price").html(data['total_price'])
             }
          }
       });

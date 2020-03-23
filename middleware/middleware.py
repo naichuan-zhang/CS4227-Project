@@ -13,6 +13,8 @@ LOGIN_LIST = [
     '/order/create/',
     '/order/previous/',
     '/order/previous/view/',
+    '/order/minusitem/',
+    '/order/plusitem/',
 ]
 
 
