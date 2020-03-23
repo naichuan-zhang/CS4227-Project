@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from order.models import Order
+
 
 class ItemComponent(ABC):
     """Composite Interface"""
@@ -8,6 +10,6 @@ class ItemComponent(ABC):
     def get_price(self):
         raise NotImplementedError("You should implement this.")
 
-    # @abstractmethod
-    # def get_name(self):
-    #     raise NotImplementedError("You should implement this.")
+    @abstractmethod
+    def create_order_item(self, order: Order):
+        raise NotImplementedError("You should implement this.")

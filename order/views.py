@@ -43,16 +43,11 @@ def view_order(request):
     item_composite = ItemComposite()
     order_items = OrderItem.objects.filter(order=order)
     for item in order_items:
-        o_i = ItemLeaf(item.item, item.amount)
-        item_composite.add(o_i)
+        order_i = ItemLeaf(item.item, item.amount)
+        item_composite.add(order_i)
 
     user = request.user
-    orders = Order.objects.filter(user=user)
-
-    discount_factory = DiscountFactory()
-    discount = discount_factory.create_discount(orders.count())
-
-    total_price = item_composite.get_price() * discount.get_discount()
+    total_price = get_total_price(user, item_composite)
     discount_amount = item_composite.get_price() - total_price
     context = {
         'items': order_items,
@@ -100,15 +95,44 @@ def add_to_cart(request):
     return JsonResponse(data=data)
 
 
+def remove_from_cart(request):
+    itemId = request.GET.get('itemId')
+    carts = Cart.objects.filter(item_id=itemId).filter(user=request.user)
+    if carts.exists():
+        cart_obj = carts.first()
+        num = cart_obj.num - 1
+        if num > 0:
+            cart_obj.num = num
+            cart_obj.save()
+        else:
+            cart_obj.delete()
+    else:
+        num = 0
+    data = {
+        'status': 200,
+        'msg': "An item has been removed from cart successfully!",
+        'num': num,
+    }
+    return JsonResponse(data=data)
+
+
 def show_cart(request):
-    carts = Cart.objects.filter(user=request.user)
-    is_all_selected = carts.filter(is_selected=False).exists()
-    total_price = Cart.get_total_price()
+    cart_items = Cart.objects.filter(user=request.user)
+    is_all_selected = cart_items.filter(is_selected=False).exists()
+    item_composite = ItemComposite()
+    for item in cart_items:
+        item_leaf = ItemLeaf(item.item, item.num)
+        item_composite.add(item_leaf)
+
+    user = request.user
+    total_price = get_total_price(user, item_composite)
+    discount_amount = item_composite.get_price() - total_price
     context = {
         'title': 'My Cart',
-        'carts': carts,
+        'carts': cart_items,
         'is_all_selected': is_all_selected,
-        'total_price': total_price,
+        'total_price': round(total_price, 2),
+        'discount_amount': round(discount_amount, 2),
     }
     return render(request, 'main/cart.html', context=context)
 
@@ -116,26 +140,36 @@ def show_cart(request):
 # TODO: part of checkout() method: for making an order
 # make_order() func has been tested with Command DP.
 def make_order(request):
-    carts = Cart.objects.filter(is_selected=True).filter(user=request.user)
+    cart_items = Cart.objects.filter(is_selected=True).filter(user=request.user)
+    item_composite = ItemComposite()
+    for item in cart_items:
+        item_leaf = ItemLeaf(item.item, item.num)
+        item_composite.add(item_leaf)
+        # delete all the items in Cart once order has been finished
+        item.delete()
+
     framework = OrderFramework()
     # Command DP used here...
-    user_id = request.user.id
-    total_price = Cart.get_total_price()
+    user = request.user
+    user_id = user.id
+    total_price = get_total_price(user, item_composite)
     order_obj = framework.create_order(user_id=user_id, total_price=total_price)
-    for cart in carts:
-        orderitem = OrderItem()
-        orderitem.order = order_obj
-        orderitem.item = cart.item
-        orderitem.amount = cart.num
-        orderitem.save()
-        # delete all the items in Cart once order has been finished
-        cart.delete()
+    item_composite.create_order_item(order_obj)
+
     data = {
         'status': 200,
         'msg': 'ok',
         'order_id': order_obj.id,
     }
     return JsonResponse(data)
+
+
+def get_total_price(user: User, item_composite: ItemComposite):
+    orders = Order.objects.filter(user=user)
+    discount_factory = DiscountFactory()
+    discount = discount_factory.create_discount(orders.count())
+    total_price = item_composite.get_price() * discount.get_discount()
+    return total_price
 
 
 def minus_item(request):
@@ -188,52 +222,3 @@ def plus_item(request):
 
     return JsonResponse(data)
 
-
-# def checkout(request):
-#     if request.method == 'POST':
-#         addr = request.POST['address']
-#         ordid = request.POST['oid']
-#         Order.objects.filter(id=int(ordid)).update(delivery_addr=addr, state=Order.ORDER_STATE_PLACED)
-#         return redirect('/orderplaced/')
-#     else:
-#         user_id = request.session.get('user_id')
-#         user = User.objects.get(id=user_id)
-#         try:
-#             order = Order.objects.get(user=user, state=OrderStateEnum.PENDING)
-#         except Order.DoesNotExist:
-#             order = Order(user=user)
-#             order.save()
-#
-#         cart = request.COOKIES['cart'].split(",")
-#         cart = dict(Counter(cart))
-#
-#         item_composite = ItemComposite("Order")
-#         main_composite = ItemComposite("Mains")
-#         side_composite = ItemComposite("Sides")
-#         drink_composite = ItemComposite("Drinks")
-#         # factory = OrderItemFactory()
-#
-#         list = []
-#         for i, c in cart.items():
-#             item = Item.objects.get(id=int(i))
-#             list.append(len(item.type))
-#             if item:
-#                 # factory.create_order_item(item, order, c)
-#
-#                 if item.type == 'MAIN':
-#                     main_composite.add(ItemLeaf(item, c))
-#                 elif item.type == 'SIDE':
-#                     side_composite.add(ItemLeaf(item, c))
-#                 else:
-#                     drink_composite.add(ItemLeaf(item, c))
-#
-#         item_composite.add(main_composite)
-#         item_composite.add(side_composite)
-#         item_composite.add(drink_composite)
-#
-#         context = {
-#             "composite": item_composite,
-#             "list": list,
-#         }
-#
-#         return render(request, 'order/checkout.html', context)
