@@ -2,9 +2,11 @@ $(function () {
 
    $("#checkout").click(function () {
       $.getJSON('/order/makeorder/', function (data) {
-         console.log(data);
-         document.cookie = "order_id="+data["order_id"]+";Path=/";
-         window.location = "/order/previous/view/";
+         if (data['status'] === 200) {
+            console.log(data);
+            document.cookie = "order_id="+data["order_id"]+";Path=/";
+            window.location = "/order/previous/view/";
+         }
       });
    });
 
@@ -12,6 +14,7 @@ $(function () {
       console.log("minus clicked");
       let $minus = $(this);
       let $td = $minus.parents("td");
+      let $tr = $td.parents("tr");
       let cartid = $td.attr("cartid");
       $.getJSON('/order/minusitem/', {'cartid': cartid}, function (data) {
          console.log(data);
@@ -19,9 +22,12 @@ $(function () {
             if (data['num'] > 0) {
                let $span = $minus.next("span");
                $span.html(data['num']);
+               $("#discount").html(data['discount']);
                $("#total-price").html(data['total_price']);
             } else {
                $td.remove();
+               $tr.remove();
+               $("#discount").html(data['discount']);
                $("#total-price").html(data['total_price'])
             }
          }
@@ -38,6 +44,7 @@ $(function () {
          if (data['status'] === 200) {
             let $span = $plus.prev("span");
             $span.html(data['num']);
+            $("#discount").html(data['discount']);
             $("#total-price").html(data['total_price']);
          }
       });

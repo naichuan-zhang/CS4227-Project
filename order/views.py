@@ -118,10 +118,10 @@ def remove_from_cart(request):
 
 
 def show_cart(request):
-    cart_items = Cart.objects.filter(user=request.user)
-    is_all_selected = cart_items.filter(is_selected=False).exists()
+    carts = Cart.objects.filter(user=request.user)
+    is_all_selected = carts.filter(is_selected=False).exists()
     item_composite = ItemComposite()
-    for item in cart_items:
+    for item in carts:
         item_leaf = ItemLeaf(item.item, item.num)
         item_composite.add(item_leaf)
 
@@ -130,7 +130,7 @@ def show_cart(request):
     discount_amount = item_composite.get_price() - total_price
     context = {
         'title': 'My Cart',
-        'carts': cart_items,
+        'carts': carts,
         'is_all_selected': is_all_selected,
         'total_price': round(total_price, 2),
         'discount_amount': round(discount_amount, 2),
@@ -141,27 +141,29 @@ def show_cart(request):
 # TODO: Implement Payment
 # make_order() func has been tested with Command DP.
 def make_order(request):
-    cart_items = Cart.objects.filter(is_selected=True).filter(user=request.user)
-    item_composite = ItemComposite()
-    for item in cart_items:
-        item_leaf = ItemLeaf(item.item, item.num)
-        item_composite.add(item_leaf)
-        # delete all the items in Cart once order has been finished
-        item.delete()
+    carts = Cart.objects.filter(is_selected=True).filter(user=request.user)
+    if carts:
+        item_composite = ItemComposite()
+        for item in carts:
+            item_leaf = ItemLeaf(item.item, item.num)
+            item_composite.add(item_leaf)
+            # delete all the items in Cart once order has been finished
+            item.delete()
 
-    framework = OrderFramework()
-    # Command DP used here...
-    user = request.user
-    user_id = user.id
-    total_price = get_total_price(user, item_composite)
-    order_obj = framework.create_order(user_id=user_id, total_price=total_price)
-    item_composite.create_order_item(order_obj)
+        framework = OrderFramework()
+        # Command DP used here...
+        user = request.user
+        user_id = user.id
+        total_price = get_total_price(user, item_composite)
+        order_obj = framework.create_order(user_id=user_id, total_price=total_price)
+        item_composite.create_order_item(order_obj)
 
-    data = {
-        'status': 200,
-        'msg': 'ok',
-        'order_id': order_obj.id,
-    }
+        data = {
+            'status': 200,
+            'msg': 'ok',
+            'order_id': order_obj.id,
+        }
+
     return JsonResponse(data)
 
 
@@ -199,9 +201,9 @@ def minus_item(request):
         cart.save()
 
     user = request.user
-    cart_items = Cart.objects.filter(is_selected=True).filter(user=user)
+    carts = Cart.objects.filter(is_selected=True).filter(user=user)
     item_composite = ItemComposite()
-    for item in cart_items:
+    for item in carts:
         item_leaf = ItemLeaf(item.item, item.num)
         item_composite.add(item_leaf)
     total_price = get_total_price(user, item_composite)
@@ -230,9 +232,9 @@ def plus_item(request):
     data['num'] = cart.num
 
     user = request.user
-    cart_items = Cart.objects.filter(is_selected=True).filter(user=user)
+    carts = Cart.objects.filter(is_selected=True).filter(user=user)
     item_composite = ItemComposite()
-    for item in cart_items:
+    for item in carts:
         item_leaf = ItemLeaf(item.item, item.num)
         item_composite.add(item_leaf)
     total_price = get_total_price(user, item_composite)
