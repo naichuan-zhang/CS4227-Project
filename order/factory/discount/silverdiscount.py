@@ -5,5 +5,5 @@ from order.factory.discount.abstractdiscount import AbstractDiscount
 
 class SilverDiscount(AbstractDiscount):
 
-    def get_discount(self):
+    def get_multiplier(self):
         return Decimal('0.9')

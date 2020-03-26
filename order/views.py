@@ -171,7 +171,7 @@ def get_total_price(user: User, item_composite: ItemComposite):
     orders = Order.objects.filter(user=user)
     discount_factory = DiscountFactory()
     discount = discount_factory.create_discount(orders.count())
-    total_price = item_composite.get_price() * discount.get_discount()
+    total_price = item_composite.get_price() * discount.get_multiplier()
     return total_price
 
 
@@ -245,24 +245,21 @@ def plus_item(request):
 
 
 def show_data(request):
-    strings = []
+    data = []
     visitor = StringVisitor()
     orders = Order.objects.all()
     carts = Cart.objects.all()
     items = Item.objects.all()
 
-    strings.append("***Orders***")
     for o in orders:
-        strings.append(o.accept(visitor))
-    strings.append("***Carts***")
+        data.append(o.accept(visitor))
     for c in carts:
-        strings.append(c.accept(visitor))
-    strings.append("***Items***")
+        data.append(c.accept(visitor))
     for i in items:
-        strings.append(i.accept(visitor))
+        data.append(i.accept(visitor))
 
     context = {
-        'strings': strings,
+        'data': data,
     }
 
     return render(request, 'order/data.html', context=context)

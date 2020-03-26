@@ -1,17 +1,24 @@
+from enum import IntEnum
+
 from order.factory.discount.golddiscount import GoldDiscount
 from order.factory.discount.nodiscount import NoDiscount
 from order.factory.discount.silverdiscount import SilverDiscount
+
+
+class DiscountEnum(IntEnum):
+    SILVER = 6
+    GOLD = 11
 
 
 class DiscountFactory:
 
     @staticmethod
     def create_discount(amount: int):
-        if amount <= 5:
+        if amount < DiscountEnum.SILVER:
             return NoDiscount()
-        elif 5 < amount <= 10:
+        elif DiscountEnum.SILVER <= amount < DiscountEnum.GOLD:
             return SilverDiscount()
-        elif amount > 10:
+        elif amount >= DiscountEnum.GOLD:
             return GoldDiscount()
         else:
             return None

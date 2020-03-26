@@ -5,5 +5,5 @@ class AbstractDiscount(ABC):
     """Discount Interface"""
 
     @abstractmethod
-    def get_discount(self):
+    def get_multiplier(self):
         raise NotImplementedError("You should implement this.")
