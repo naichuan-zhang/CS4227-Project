@@ -8,7 +8,9 @@ from order.composite.itemcomposite import ItemComposite
 from order.composite.itemleaf import ItemLeaf
 from order.factory.discountfactory import DiscountFactory
 from order.factory.orderitemfactory import OrderItemFactory
+from order.memento.caretaker import Caretaker
 from order.memento.memento import Memento
+from order.memento.originator import Originator
 from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, Cart, OrderItem
 from order.orderframework import OrderFramework
 from order.visitor.stringvisitor import StringVisitor
@@ -184,20 +186,27 @@ def minus_item(request):
 
     }
     original_num = cart.num
-    memento = Memento(original_num)
+    # use Memento DP to handle exceptions
+    originator = Originator(state=original_num)
+    caretaker = Caretaker(originator=originator)
     try:
         if cart.num > 1:
             cart.num = cart.num - 1
             cart.save()
             data['num'] = cart.num
-            memento.save_state()
+            # save the current cart.num
+            originator.set_state(state=cart.num)
+            caretaker.save()
         else:
             cart.delete()
             data['num'] = 0
-            memento.save_state()
+            # save the current cart.num
+            originator.set_state(state=cart.num)
+            caretaker.save()
     except:
-        memento.restore_state(original_num)
-        cart.num = original_num
+        # rollback to original_num when error occurs
+        caretaker.undo()
+        cart.num = originator.get_state()
         cart.save()
 
     user = request.user
@@ -221,13 +230,19 @@ def plus_item(request):
         'msg': 'ok',
     }
     original_num = cart.num
-    memento = Memento(original_num)
+    # use Memento DP to handle exceptions
+    originator = Originator(state=original_num)
+    caretaker = Caretaker(originator=originator)
     try:
         cart.num = cart.num + 1
+        # save the current cart.num
+        originator.set_state(state=cart.num)
+        caretaker.save()
         cart.save()
     except:
-        memento.restore_state(original_num)
-        cart.num = original_num
+        # rollback to original_num when error occurs
+        caretaker.undo()
+        cart.num = originator.get_state()
         cart.save()
     data['num'] = cart.num
 
