@@ -27,3 +27,4 @@ class Caretaker:
             self.__originator.restore_memento(memento)
         except Exception as e:
             print(e)
+            self.undo()

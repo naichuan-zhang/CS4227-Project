@@ -13,7 +13,6 @@ class OrderFramework:
         self.__cancel_order_service = CancelOrderService()
 
     def create_order(self, user_id: int, total_price: float) -> Order:
-        # TODO: Might use a creational design pattern for order here ???
         user = User.objects.get(id=user_id)
         order = Order(user=user, total_price=total_price)
         return self.__command_manager.execute(
