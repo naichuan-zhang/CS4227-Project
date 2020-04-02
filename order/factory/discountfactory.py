@@ -13,12 +13,12 @@ class DiscountEnum(IntEnum):
 class DiscountFactory:
 
     @staticmethod
-    def create_discount(amount: int):
-        if amount < DiscountEnum.SILVER:
+    def create_discount(number_of_orders: int):
+        if number_of_orders < DiscountEnum.SILVER:
             return NoDiscount()
-        elif DiscountEnum.SILVER <= amount < DiscountEnum.GOLD:
+        elif DiscountEnum.SILVER <= number_of_orders < DiscountEnum.GOLD:
             return SilverDiscount()
-        elif amount >= DiscountEnum.GOLD:
+        elif number_of_orders >= DiscountEnum.GOLD:
             return GoldDiscount()
         else:
             return None

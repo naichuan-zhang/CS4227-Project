@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from functools import singledispatch
 from typing import TYPE_CHECKING
 
-from order.models import Order, Cart, Item
+from order.models import Order, Cart, Item, OrderItem
 from order.visitor.visitable import Visitable
 
 if TYPE_CHECKING:
@@ -20,7 +20,9 @@ class AbstractVisitor(ABC):
         self.visit.register(Order, self._visit_order)
         self.visit.register(Cart, self._visit_cart)
         self.visit.register(Item, self._visit_item)
+        self.visit.register(Item, self._visit_order_item)
 
+    @abstractmethod
     def visit(self, element: Visitable):
         raise NotImplementedError
 
@@ -34,5 +36,9 @@ class AbstractVisitor(ABC):
 
     @abstractmethod
     def _visit_item(self, element: Item):
+        raise NotImplementedError
+
+    @abstractmethod
+    def _visit_order_item(self, element: OrderItem):
         raise NotImplementedError
 

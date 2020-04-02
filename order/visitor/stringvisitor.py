@@ -1,4 +1,4 @@
-from order.models import Order, Cart, Item
+from order.models import Order, Cart, Item, OrderItem
 from order.visitor.abstractvisitor import AbstractVisitor
 from order.visitor.visitable import Visitable
 
@@ -31,4 +31,11 @@ class StringVisitor(AbstractVisitor):
         string += "Type:  " + str(element.type) + " / "
         string += "Price: " + str(element.price) + " / "
         string += "Stock: " + str(element.stock)
+        return string
+
+    def _visit_order_item(self, element: OrderItem):
+        string = "OrderItem ID: " + str(element.id) + " / "
+        string += "Item ID:  " + str(element.item.id) + " / "
+        string += "Order ID:  " + str(element.order.id) + " / "
+        string += "Quantity: " + str(element.amount)
         return string

@@ -51,14 +51,6 @@ class Cart(Visitable):
     num = models.IntegerField(default=1)
     is_selected = models.BooleanField(default=True)
 
-    @staticmethod
-    def get_total_price():
-        carts = Cart.objects.filter(is_selected=True)
-        total_price = 0
-        for cart in carts:
-            total_price += cart.num * cart.item.price
-        return total_price
-
     def accept(self, visitor):
         return visitor.visit(self)
 

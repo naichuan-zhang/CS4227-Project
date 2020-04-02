@@ -36,13 +36,11 @@
                 <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
                 <a class="nav-item nav-link" href="{% url 'show_food' %}">Order</a>
                 <a class="nav-item nav-link" href="{% url 'show_cart' %}">Cart</a>
-                <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
-                  <a class="nav-item nav-link" href="{% url 'food' %}">AddMenuItem(Admin Only)</a>
+                <a class="nav-item nav-link" href="{% url 'food' %}">AddMenuItem(Admin Only)</a>
               {% else %}
                 <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
 {#                NO NEED TO JUDGE IF USER HAS LOGGED IN OR NOT, MIDDLEWARE IS USED  #}
                 <a class="nav-item nav-link" href="{% url 'show_food' %}">Menu</a>
-                <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
               {% endif %}
             </div>
             <!-- Navbar Right Side -->

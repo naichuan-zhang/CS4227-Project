@@ -18,10 +18,6 @@ def home(request):
     return render(request, 'main/home.html')
 
 
-def about(request):
-    return render(request, 'main/about.html')
-
-
 def me(request):
     user_id = request.session.get('user_id')
     content = {
