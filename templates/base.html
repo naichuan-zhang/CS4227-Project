@@ -34,9 +34,10 @@
             <div class="navbar-nav mr-auto">
               {% if request.session.user_id %}
                 <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
-                <a class="nav-item nav-link" href="{% url 'show_food' %}">Menu</a>
+                <a class="nav-item nav-link" href="{% url 'show_food' %}">Order</a>
                 <a class="nav-item nav-link" href="{% url 'show_cart' %}">Cart</a>
                 <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+                  <a class="nav-item nav-link" href="{% url 'adminCheck' %}">AddMenuItem(Admin Only)</a>
               {% else %}
                 <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
 {#                NO NEED TO JUDGE IF USER HAS LOGGED IN OR NOT, MIDDLEWARE IS USED  #}

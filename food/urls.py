@@ -3,5 +3,6 @@ from django.urls import path
 from food import views
 
 urlpatterns = [
-    path('show/', views.show, name='show'),
+    path('', views.newFoodItem, name='food'),
+    path('adminCheck/',views.adminCheck,name ='adminCheck')
 ]

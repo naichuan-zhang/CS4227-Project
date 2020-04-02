@@ -4,10 +4,10 @@ from django.db import models
 
 
 class FoodTypeEnum(IntEnum):
-    CHINESE = 0
-    MEXICAN = 1
-    IRISH = 2
-    JAPANESE = 3
+    STARTER = 0
+    MAIN = 1
+    DESSERT = 2
+    DRINK = 3
 
     @classmethod
     def tuples(cls):
@@ -16,8 +16,6 @@ class FoodTypeEnum(IntEnum):
 
 class FoodType(models.Model):
     """food type model"""
-    name = models.CharField(max_length=30, choices=FoodTypeEnum.tuples(),
-                            default=FoodTypeEnum.CHINESE)
 
     class Meta:
         db_table = 'food_type'
