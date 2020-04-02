@@ -7,7 +7,7 @@ from .serializers import OrderSerializer, CartSerializer, ItemSerializer, OrderI
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     permission_classes = [
-        permissions.AllowAny,
+        permissions.IsAuthenticatedOrReadOnly,
     ]
     serializer_class = OrderSerializer
 
@@ -15,7 +15,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 class CartViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all()
     permission_classes = [
-        permissions.AllowAny,
+        permissions.IsAuthenticatedOrReadOnly,
     ]
     serializer_class = CartSerializer
 
@@ -23,7 +23,7 @@ class CartViewSet(viewsets.ModelViewSet):
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     permission_classes = [
-        permissions.AllowAny,
+        permissions.IsAuthenticatedOrReadOnly,
     ]
     serializer_class = ItemSerializer
 
@@ -31,6 +31,6 @@ class ItemViewSet(viewsets.ModelViewSet):
 class OrderItemViewSet(viewsets.ModelViewSet):
     queryset = OrderItem.objects.all()
     permission_classes = [
-        permissions.AllowAny,
+        permissions.IsAuthenticatedOrReadOnly,
     ]
     serializer_class = OrderItemSerializer
