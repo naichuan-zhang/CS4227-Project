@@ -16,6 +16,7 @@ class FoodTypeEnum(IntEnum):
 
 class FoodType(models.Model):
     """food type model"""
+    name = models.CharField(max_length=20, choices=FoodTypeEnum.tuples(), default=FoodTypeEnum.STARTER)
 
     class Meta:
         db_table = 'food_type'

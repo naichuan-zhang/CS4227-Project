@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, Client, RequestFactory
 
 from user.models import User
 from user.userbuilder.userbuilder import UserBuilder
@@ -28,3 +28,28 @@ class UserBuilderTestCase(TestCase):
         self.assertEqual(user.email, 'test@gmail.com')
         user2 = User.objects.get(email__contains='@163.com')
         self.assertEqual(user2.username, 'user2')
+
+
+class UserViewsTestCases(TestCase):
+
+    def setUp(self) -> None:
+        self.client = Client()
+        self.credentials = {
+            'username': 'naichuan',
+            'password': '123',
+        }
+        self.user = User.objects.create(username='naichuan', password='123',
+                                        email='test@gmail.com', icon=None)
+
+    def test_check_user(self):
+        response = self.client.get('/user/checkuser/')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data['status'], 200)
+        self.assertEqual(data['msg'], 'Valid username')
+
+    def test_user_login(self):
+        response = self.client.get('/user/login/')
+        self.assertEqual(response.status_code, 200)
+        response = self.client.post('/user/login/', self.credentials, follow=True)
+        self.assertEqual(response.status_code, 200)
