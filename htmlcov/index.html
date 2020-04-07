@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">61%</span>
+        </h1>
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+<div id="index">
+    <table class="index">
+        <thead>
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>1022</td>
+                <td>403</td>
+                <td>0</td>
+                <td class="right" data-ratio="619 1022">61%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr class="file">
+                <td class="name left"><a href="CS4227_Project___init___py.html">CS4227_Project\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="CS4227_Project_settings_py.html">CS4227_Project\settings.py</a></td>
+                <td>31</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="31 31">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="CS4227_Project_urls_py.html">CS4227_Project\urls.py</a></td>
+                <td>4</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="4 4">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="food___init___py.html">food\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="food_admin_py.html">food\admin.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="food_foodfactory_py.html">food\foodfactory.py</a></td>
+                <td>51</td>
+                <td>30</td>
+                <td>0</td>
+                <td class="right" data-ratio="21 51">41%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="food_forms_py.html">food\forms.py</a></td>
+                <td>9</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="9 9">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="food_migrations_0001_initial_py.html">food\migrations\0001_initial.py</a></td>
+                <td>6</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="6 6">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="food_migrations___init___py.html">food\migrations\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="food_models_py.html">food\models.py</a></td>
+                <td>29</td>
+                <td>3</td>
+                <td>0</td>
+                <td class="right" data-ratio="26 29">90%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="food_tests_py.html">food\tests.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="food_urls_py.html">food\urls.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="food_views_py.html">food\views.py</a></td>
+                <td>33</td>
+                <td>25</td>
+                <td>0</td>
+                <td class="right" data-ratio="8 33">24%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="manage_py.html">manage.py</a></td>
+                <td>12</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="10 12">83%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="middleware___init___py.html">middleware\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order___init___py.html">order\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_admin_py.html">order\admin.py</a></td>
+                <td>6</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="6 6">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_command___init___py.html">order\command\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_command_command_py.html">order\command\command.py</a></td>
+                <td>4</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 4">75%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_command_commandmanager_py.html">order\command\commandmanager.py</a></td>
+                <td>18</td>
+                <td>5</td>
+                <td>0</td>
+                <td class="right" data-ratio="13 18">72%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_command_ordercommand_py.html">order\command\ordercommand.py</a></td>
+                <td>39</td>
+                <td>9</td>
+                <td>0</td>
+                <td class="right" data-ratio="30 39">77%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_command_orderservices_py.html">order\command\orderservices.py</a></td>
+                <td>32</td>
+                <td>11</td>
+                <td>0</td>
+                <td class="right" data-ratio="21 32">66%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_command_undoable_py.html">order\command\undoable.py</a></td>
+                <td>4</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 4">75%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_composite___init___py.html">order\composite\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_composite_itemcomponent_py.html">order\composite\itemcomponent.py</a></td>
+                <td>8</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="6 8">75%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_composite_itemcomposite_py.html">order\composite\itemcomposite.py</a></td>
+                <td>19</td>
+                <td>9</td>
+                <td>0</td>
+                <td class="right" data-ratio="10 19">53%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_composite_itemleaf_py.html">order\composite\itemleaf.py</a></td>
+                <td>11</td>
+                <td>5</td>
+                <td>0</td>
+                <td class="right" data-ratio="6 11">55%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_factory___init___py.html">order\factory\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_factory_discount___init___py.html">order\factory\discount\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_factory_discount_abstractdiscount_py.html">order\factory\discount\abstractdiscount.py</a></td>
+                <td>4</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 4">75%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_factory_discount_golddiscount_py.html">order\factory\discount\golddiscount.py</a></td>
+                <td>5</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="right" data-ratio="4 5">80%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_factory_discount_nodiscount_py.html">order\factory\discount\nodiscount.py</a></td>
+                <td>5</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="right" data-ratio="4 5">80%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_factory_discount_silverdiscount_py.html">order\factory\discount\silverdiscount.py</a></td>
+                <td>5</td>
+                <td>1</td>
+                <td>0</td>
+                <td class="right" data-ratio="4 5">80%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_factory_discountfactory_py.html">order\factory\discountfactory.py</a></td>
+                <td>17</td>
+                <td>7</td>
+                <td>0</td>
+                <td class="right" data-ratio="10 17">59%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_factory_orderitemfactory_py.html">order\factory\orderitemfactory.py</a></td>
+                <td>6</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="4 6">67%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_interceptor___init___py.html">order\interceptor\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_memento___init___py.html">order\memento\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_memento_caretaker_py.html">order\memento\caretaker.py</a></td>
+                <td>17</td>
+                <td>4</td>
+                <td>0</td>
+                <td class="right" data-ratio="13 17">76%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_memento_memento_py.html">order\memento\memento.py</a></td>
+                <td>6</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="6 6">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_memento_originator_py.html">order\memento\originator.py</a></td>
+                <td>13</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="13 13">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_migrations_0001_initial_py.html">order\migrations\0001_initial.py</a></td>
+                <td>7</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="7 7">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_migrations_0002_auto_20200407_1331_py.html">order\migrations\0002_auto_20200407_1331.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_migrations___init___py.html">order\migrations\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_models_py.html">order\models.py</a></td>
+                <td>67</td>
+                <td>12</td>
+                <td>0</td>
+                <td class="right" data-ratio="55 67">82%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_orderframework_py.html">order\orderframework.py</a></td>
+                <td>20</td>
+                <td>3</td>
+                <td>0</td>
+                <td class="right" data-ratio="17 20">85%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_strategy___init___py.html">order\strategy\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_tests_py.html">order\tests.py</a></td>
+                <td>30</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="30 30">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_urls_py.html">order\urls.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_views_py.html">order\views.py</a></td>
+                <td>179</td>
+                <td>150</td>
+                <td>0</td>
+                <td class="right" data-ratio="29 179">16%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_visitor___init___py.html">order\visitor\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_visitor_abstractvisitor_py.html">order\visitor\abstractvisitor.py</a></td>
+                <td>32</td>
+                <td>14</td>
+                <td>0</td>
+                <td class="right" data-ratio="18 32">56%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_visitor_stringvisitor_py.html">order\visitor\stringvisitor.py</a></td>
+                <td>34</td>
+                <td>24</td>
+                <td>0</td>
+                <td class="right" data-ratio="10 34">29%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="order_visitor_visitable_py.html">order\visitor\visitable.py</a></td>
+                <td>11</td>
+                <td>2</td>
+                <td>0</td>
+                <td class="right" data-ratio="9 11">82%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="rest___init___py.html">rest\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="rest_admin_py.html">rest\admin.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="rest_api_py.html">rest\api.py</a></td>
+                <td>19</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="19 19">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="rest_migrations___init___py.html">rest\migrations\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="rest_models_py.html">rest\models.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="rest_serializers_py.html">rest\serializers.py</a></td>
+                <td>18</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="18 18">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="rest_tests_py.html">rest\tests.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="rest_urls_py.html">rest\urls.py</a></td>
+                <td>8</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="8 8">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user___init___py.html">user\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_admin_py.html">user\admin.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_constants_py.html">user\constants.py</a></td>
+                <td>2</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="2 2">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_email_helper_py.html">user\email_helper.py</a></td>
+                <td>10</td>
+                <td>6</td>
+                <td>0</td>
+                <td class="right" data-ratio="4 10">40%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_migrations_0001_initial_py.html">user\migrations\0001_initial.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_migrations___init___py.html">user\migrations\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_models_py.html">user\models.py</a></td>
+                <td>12</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="12 12">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_tests_py.html">user\tests.py</a></td>
+                <td>17</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="17 17">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_urls_py.html">user\urls.py</a></td>
+                <td>4</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="4 4">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_userbuilder___init___py.html">user\userbuilder\__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_userbuilder_abstractuserbuilder_py.html">user\userbuilder\abstractuserbuilder.py</a></td>
+                <td>16</td>
+                <td>7</td>
+                <td>0</td>
+                <td class="right" data-ratio="9 16">56%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_userbuilder_userbuilder_py.html">user\userbuilder\userbuilder.py</a></td>
+                <td>27</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="27 27">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_userbuilder_userdirector_py.html">user\userbuilder\userdirector.py</a></td>
+                <td>7</td>
+                <td>0</td>
+                <td>0</td>
+                <td class="right" data-ratio="7 7">100%</td>
+            </tr>
+            <tr class="file">
+                <td class="name left"><a href="user_views_py.html">user\views.py</a></td>
+                <td>84</td>
+                <td>65</td>
+                <td>0</td>
+                <td class="right" data-ratio="19 84">23%</td>
+            </tr>
+        </tbody>
+    </table>
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.0.4</a>,
+            created at 2020-04-07 13:35
+        </p>
+    </div>
+</div>
+</body>
+</html>
