@@ -16,4 +16,5 @@ urlpatterns = [
     path('minusitem/', views.minus_item, name='minus_item'),
     path('plusitem/', views.plus_item, name='plus_item'),
     path('data/', views.show_data, name='show_data'),
+    path('previous/view/make_payment', views.make_payment, name='make_payment'),
 ]

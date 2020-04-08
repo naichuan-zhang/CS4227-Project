@@ -59,6 +59,27 @@ def view_order(request):
     }
     return render(request, 'order/view_order.html', context)
 
+def make_payment(request):
+
+    order_id = request.COOKIES['order_id']
+    order = Order.objects.get(id=order_id)
+
+    item_composite = ItemComposite()
+    order_items = OrderItem.objects.filter(order=order)
+    for item in order_items:
+        order_i = ItemLeaf(item.item, item.amount)
+        item_composite.add(order_i)
+
+    user = request.user
+    total_price = get_total_price(user, item_composite)
+    discount_amount = item_composite.get_price() - total_price
+    context = {
+        'total_price': round(total_price, 2),
+        'discount_amount': round(discount_amount, 2),
+    }
+
+    return render(request, 'order/make_payment.html', context)
+
 
 # show food
 def show_food(request):
@@ -76,6 +97,7 @@ def show_food_by_type(request, type):
         'types': types,
     }
     return render(request, 'order/show.html', context=context)
+
 
 
 # middleware is used to ensure user has logged in

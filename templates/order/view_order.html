@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'app/main/js/view_order.js' %}"></script>
+{% endblock %}
+
 {% block content %}
     <div class="container ">
         <h3 class="text-danger"><strong>View Order</strong></h3>
@@ -28,6 +33,14 @@
                     <th></th>
                     <th>Total Price</th>
                     <th>{{total_price}}</th>
+            </thead>
+            <thead>
+            <th>
+                <button onclick="make_payment({{order.id}})">
+                            Payment
+                </button>
+            </th>
+
             </thead>
         </table>
 	</div>

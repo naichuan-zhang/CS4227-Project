@@ -1,6 +1,7 @@
 from enum import IntEnum
 from django.db import models
 
+from order.strategy.strategy import Strategy
 from order.visitor.visitable import Visitable
 from user.models import User
 
@@ -97,3 +98,14 @@ class OrderItem(models.Model):
     def __str__(self):
         return str(self.id)
 
+class PayCard(Strategy):
+
+    name = models.CharField(max_length=30)
+    card = models.IntegerField(max_length=16)
+    date = models.IntegerField(max_length=4)
+    cvs = models.IntegerField(max_length=3)
+
+class PayPal(Strategy):
+
+    email = models.CharField(max_length=64)
+    password = models.CharField(max_length=64)
