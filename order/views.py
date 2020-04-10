@@ -54,6 +54,7 @@ def view_order(request):
             password = form.cleaned_data['password']
             context = Context(PayPaypal())
             context.pay(email,password)
+            return render(request, 'order/paymentcomp.html')
     else:
         form = PaymentForm()
 
