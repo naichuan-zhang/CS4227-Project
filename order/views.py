@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from order.forms import PaymentForm, CardForm
 from order.composite.itemcomposite import ItemComposite
 from order.composite.itemleaf import ItemLeaf
 from order.factory.discountfactory import DiscountFactory
@@ -13,6 +14,9 @@ from order.memento.memento import Memento
 from order.memento.originator import Originator
 from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, Cart, OrderItem
 from order.orderframework import OrderFramework
+from order.strategy.paypaypal import PayPaypal
+from order.strategy.strategy import Strategy
+from order.strategy.paycontext import Context
 from order.visitor.stringvisitor import StringVisitor
 from user.models import User
 
@@ -43,6 +47,16 @@ def view_order(request):
     order_id = request.COOKIES['order_id']
     order = Order.objects.get(id=order_id)
 
+    if request.method == "POST" and 'paypal1' in request.POST:
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            context = Context(PayPaypal())
+            context.pay(email,password)
+    else:
+        form = PaymentForm()
+
     item_composite = ItemComposite()
     order_items = OrderItem.objects.filter(order=order)
     for item in order_items:
@@ -53,12 +67,27 @@ def view_order(request):
     total_price = get_total_price(user, item_composite)
     discount_amount = item_composite.get_price() - total_price
     context = {
+        'form': form,
         'items': order_items,
         'total_price': round(total_price, 2),
         'discount_amount': round(discount_amount, 2),
     }
     return render(request, 'order/view_order.html', context)
 
+
+def paycard(request):
+
+    if request.method == "POST" and 'card1' in request.POST:
+        form1 = CardForm(request.POST)
+        if form1.is_valid():
+            name = form1.cleaned_data['name']
+            number = form1.cleaned_data['number']
+            print(name + number)
+
+    form1 = CardForm()
+    context = form1
+
+    return render(request, 'order/paymentcomp.html', context)
 
 # show food
 def show_food(request):
@@ -279,3 +308,4 @@ def show_data(request):
     }
 
     return render(request, 'order/data.html', context=context)
+

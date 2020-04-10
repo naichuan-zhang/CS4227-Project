@@ -98,14 +98,19 @@ class OrderItem(models.Model):
     def __str__(self):
         return str(self.id)
 
-class PayCard(Strategy):
+class PayCard(models.Model):
 
     name = models.CharField(max_length=30)
-    card = models.IntegerField(max_length=16)
-    date = models.IntegerField(max_length=4)
-    cvs = models.IntegerField(max_length=3)
+    card = models.IntegerField()
 
-class PayPal(Strategy):
+    class Meta:
+        db_table = 'pay_card'
+
+
+class PayPal(models.Model):
 
     email = models.CharField(max_length=64)
     password = models.CharField(max_length=64)
+
+    class Meta:
+        db_table = 'paypal'

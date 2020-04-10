@@ -1,6 +1,6 @@
-function make_payment(id){
+function paypal(){
             document.cookie = "order_id="+id+";Path=/";
-            window.location = "/order/previous/view/make_payment";
+            window.location = "/order/paymentcomp";
         };
 
 function show(x, y){

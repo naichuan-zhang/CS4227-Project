@@ -34,47 +34,25 @@
                     <th>Total Price</th>
                     <th>{{total_price}}</th>
             </thead>
-            <thead>
-             <form>
-                    <th><button type = "button" onclick = 'show("paypal", "card");'>Paypal Details</button></th>
-                    <th><button type = "button" onclick = 'show("card", "paypal");'>Credit Card Details</button></th>
-            </form>
-            </thead>
         </table>
 
-    <div id="card">
-        <div id = "card" class="form-group">
-            <label for="name_input">Name</label>
-            <input name="cardname" type="text" class="form-control" id="username_input" placeholder="Card name">
-            <span id="username_msg"></span>
-        </div>
-        <div class="form-group">
-            <label for="number_input">Card Number</label>
-            <input name="number" type="number" class="form-control" id="number_input" placeholder="Card number">
-        </div>
-        <div class="form-group">
-            <label for="expiry_date">Expire date</label>
-            <input name="date" type="date" class="form-control" id="expiry_date_input" placeholder="Date">
-        </div>
-        <div class="form-group">
-            <label for="cvs_input">CVS</label>
-            <input name="cvs" type="number" class="form-control" id="cvs_input" placeholder="CVS">
-        </div>
-        <button type="submit" class="btn btn-success btn-block">Make Payment</button>
-    </div>
+    <form>
+    <button type = "button" onclick = 'show("paypal", "card");'>Pay by paypal</button>
+    <button type = "button" onclick = 'show("card", "paypal");'>Pay by card</button>
+    </form>
 
-    <div  id="paypal">
-        <div class="form-group">
-            <label for="email_input">password</label>
-            <input name="email" type="email" class="form-control" id="email_input" placeholder="Email">
-        </div>
-        <div  class="form-group">
-            <label for="password_input">email</label>
-            <input name="password" type="text" class="form-control" id="password_input" placeholder="password">
-            <span id="username_msg"></span>
-        </div>
+        <form method="post" id="paypal" style="display:none;">
+            <p>Enter paypal details</p>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" name="paypal1">Submit</button>
+        </form>
 
-        <button type="submit" class="btn btn-success btn-block">Make Payment</button>
+        <form method="post" id="card" style="display:none;">
+            <p>Enter card details</p>
+            {% csrf_token %}
+            {{ form1.as_p }}
+            <button type="submit" name="card1">Submit</button>
+        </form>
     </div>
-	</div>
 {% endblock %}

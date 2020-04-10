@@ -14,6 +14,6 @@ class Context():
     def strategy(self, strategy: Strategy):
         self._strategy = strategy
 
-    def pay(self):
-        self._strategy.payMethod()
+    def pay(self, par1, par2):
+        self._strategy.payMethod(par1, par2)
 
