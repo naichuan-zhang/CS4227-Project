@@ -4,6 +4,11 @@ from .forms import FoodInputForm, adminCheckForm
 from .foodfactory import *
 from order.models import Item
 from django.contrib import messages
+from logger import *
+from .interceptor.food_interceptor import *
+from .interceptor.food_dispatcher import *
+from .interceptor.interceptor_framework import *
+from .interceptor.Context import *
 
 
 def newFoodItem(request):
@@ -14,6 +19,14 @@ def newFoodItem(request):
             type = form.cleaned_data['type']
             stock = form.cleaned_data['stock']
             price = form.cleaned_data['price']
+
+            newMenuItem = NewMenuItemContext(name, type,stock, price)
+            Framework = InterceptorFramework()
+            newfoodInterceptor = food_interceptor()
+            Framework.register_food_interceptor(newfoodInterceptor)
+
+            #passes context object to framework then dispatcher then interceptor
+            Framework.on_log_event(newMenuItem)
 
             newfood = foodfactory.create_food(type,name,price,stock)
             newMenuItem = Item(name=newfood.getfoodname(),
