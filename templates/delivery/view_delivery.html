@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="container ">
+        <h3 class="text-danger"><strong>View Delivery</strong></h3>
+        <br>
+        <table class="table table-hover table-bordered">
+            <thead>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+            </thead>
+            {% for i in items %}
+                <tr>
+					<td>{{i.item.name}}</td>
+					<td>{{i.amount}}</td>
+					<td>{{i.item.price}}
+                </tr>
+            {% endfor %}
+            <tr><td></td><td></td><td></td></tr>
+        </table>
+
+        <p>Delivery Status: Order is {{delivery_state}}</p>
+        <table class="table table-hover table-bordered">
+                <tr>
+					<td><button onclick="view_delivery({{order.id}})">
+                            {{button_state1}}
+                        </button></td>
+					<td><button onclick="view_delivery({{order.id}})">
+                            {{button_state2}}
+                        </button></td>
+                </tr>
+        </table>
+    </div>
+{% endblock %}

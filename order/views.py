@@ -14,6 +14,7 @@ from order.memento.memento import Memento
 from order.memento.originator import Originator
 from order.models import Item, Order, ItemTypeEnum, OrderStateEnum, Cart, OrderItem
 from order.orderframework import OrderFramework
+from order.strategy.paycard import PayCard
 from order.strategy.paypaypal import PayPaypal
 from order.strategy.strategy import Strategy
 from order.strategy.paycontext import Context
@@ -35,7 +36,7 @@ def create_order(request):
 
 
 def view_orders(request):
-    user = request.user
+    user = request.user._wrapped if hasattr(request.user, '_wrapped') else request.user
     orders = Order.objects.filter(user=user)
     context = {
         'orders': orders,
@@ -83,12 +84,14 @@ def paycard(request):
         if form1.is_valid():
             name = form1.cleaned_data['name']
             number = form1.cleaned_data['number']
-            print(name + number)
+            context = Context(PayCard())
+            context.pay(name, number)
+            return render(request, 'order/paymentcomp.html', context)
 
     form1 = CardForm()
     context = form1
 
-    return render(request, 'order/paymentcomp.html', context)
+    return render(request, 'order/view_order.html', context)
 
 # show food
 def show_food(request):

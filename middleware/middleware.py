@@ -15,6 +15,8 @@ LOGIN_LIST = [
     '/order/previous/view/',
     '/order/minusitem/',
     '/order/plusitem/',
+    '/delivery/delivery/',
+    '/delivery/view_delivery/'
 ]
 
 

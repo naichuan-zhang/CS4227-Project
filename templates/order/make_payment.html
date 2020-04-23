@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block ext_js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'app/main/js/make_payment.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <form>
+    <button type = "button" onclick = 'show("searchForm", "insertForm");'>Paypal Details</button>
+    <button type = "button" onclick = 'show("insertForm", "searchForm");'>Credit Card Details</button>
+    </form>
+
+<form id = "searchForm"  method = "post">
+
+        <p>Enter details below for PayPal payment</p>
+        <button type="submit">Submit</button>
+
+</form>
+
+<form id = "insertForm" style = "display: none;" method = "post">
+
+        <p>Enter details below for Credit Card payment</p>
+
+        <button type="submit">Submit</button>
+</form>
+
+
+
+
+
+{% endblock%}

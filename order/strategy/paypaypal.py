@@ -5,5 +5,5 @@ from order.models import PayPal
 class PayPaypal(Strategy):
 
     def payMethod(self, email, password):
-        self.__payment = PayPal(email=email, password=password)
-        self.__payment.save()
+        self._payment = PayPal(email=email, password=password)
+        self._payment.save()
